@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Path | المستشار السيبراني السعودي</title>
+
+<style>
+:root{
+  --bg:#070a0f;
+  --card:#0f1623;
+  --accent:#00ffc3;
+  --blue:#4da3ff;
+  --text:#e6edf3;
+  --muted:#8b9bb0;
+  --glass:rgba(15, 22, 35, 0.85);
+}
+
+body{
+  margin:0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at 20% 20%, rgba(0,255,195,0.05), transparent 50%), var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  scroll-behavior: smooth;
+}
+
+.container{ max-width:900px; margin:auto; padding:20px; }
+
+/* تأثير التيرمينال العلوي */
+.terminal {
+  background: #000;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: inline-block;
+  border: 1px solid rgba(0,255,195,0.2);
+}
+
+/* قسم الهيرو */
+.hero{ text-align:center; padding:100px 20px 60px; }
+.hero h1{
+  font-size:clamp(30px, 6vw, 48px);
+  margin-bottom:15px;
+  background: linear-gradient(90deg, var(--accent), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+}
+
+/* زر ابدأ الاختبار - بدون ومع العلم فقط */
+.btn{
+  display:inline-block;
+  padding:18px 60px;
+  border-radius:12px;
+  background:linear-gradient(90deg, var(--accent), var(--blue));
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  font-size: 18px;
+  transition:0.3s;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,255,195,0.2);
+}
+.btn:hover{ transform:scale(1.05); box-shadow:0 0 30px rgba(0,255,195,0.4); }
+
+/* --- الشريط المتحرك: من اليمين إلى اليسار (حلقة متصلة) --- */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  padding: 25px 0;
+  background: rgba(0, 255, 195, 0.02);
+  margin: 40px 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  /* الحركة متجهة لليسار */
+  animation: scroll-to-left 30s linear infinite;
+}
+
+.marquee-content span {
+  display: flex;
+  align-items: center;
+  padding: 0 45px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.marquee-content span b { color: var(--text); border-bottom: 2px solid var(--blue); }
+
+/* الأنيميشن لعكس الحركة من اليمين لليسار */
+@keyframes scroll-to-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); } 
+}
+
+/* الأقسام العامة */
+.section{
+  margin-top:50px;
+  padding:35px;
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 24px;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+.step { padding: 20px; background: rgba(255,255,255,0.02); border-radius: 15px; }
+.step-num { color: var(--accent); font-size: 24px; font-weight: bold; }
+
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+.card{ background: var(--card); padding:20px; border-radius:15px; border-right: 3px solid var(--accent); text-align: center; }
+
+/* الأسئلة الشائعة - تنسيق مرتب وكامل */
+.faq-grid { margin-top: 20px; }
+.faq-item {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: 0.3s;
+}
+.faq-item:hover { border-color: var(--accent); }
+.faq-item h4 { margin: 0; color: var(--blue); font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+.faq-item h4::after { content: '+'; color: var(--accent); font-size: 20px; transition: 0.3s; }
+.faq-item.active h4::after { content: '-'; transform: rotate(180deg); }
+.faq-item p { margin: 15px 0 0; color: var(--muted); font-size: 14px; display: none; line-height: 1.6; }
+
+.fade{ opacity:0; transform:translateY(30px); transition:0.8s ease-out; }
+.fade.show{ opacity:1; transform:translateY(0); }
+
+footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; margin-top: 50px; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- قسم العنوان الرئيسي -->
+  <div class="hero fade">
+    <div class="terminal" id="typewriter">root@cyberpath:~# </div>
+    <h1>المستشار السيبراني للمهارات <br> المتوافقة مع سوق العمل السعودي</h1>
+    <p>بناءً على ضوابط الهيئة الوطنية للأمن السيبراني (NCA) واحتياجات رؤية 2030.</p>
+    <br>
+    <a href="page2.html" class="btn">ابدأ الاختبار التحليلي </a>
+  </div>
+
+  <!-- الشريط المتحرك اللانهائي -->
+  <div style="text-align: center; font-size: 14px; color: var(--accent); margin-bottom: 5px;" class="fade">الشهادات الأكثر طلباً في المنشآت السعودية</div>
+  <div class="marquee fade">
+    <div class="marquee-content">
+      <span><b>Security+</b></span> <span><b>CISM</b></span> <span><b>CISSP</b></span>
+      <span><b>OSCP</b></span> <span><b>CISA</b></span> <span><b>CRISC</b></span>
+      <span><b>CySA+</b></span> <span><b>GCFA</b></span> <span><b>BTL1</b></span>
+      <span><b>ISO 27001</b></span> <span><b>CCSP</b></span> <span><b>GCIH</b></span>
+      <span><b>CHFI</b></span> <span><b>CEH</b></span>
+      <!-- تكرار المحتوى لضمان انسيابية الحركة -->
+      <span><b>Security+</b></span> <span><b>CISM</b></span> <span><b>CISSP</b></span>
+      <span><b>OSCP</b></span> <span><b>CISA</b></span> <span><b>CRISC</b></span>
+      <span><b>CySA+</b></span> <span><b>GCFA</b></span> <span><b>BTL1</b></span>
+      <span><b>ISO 27001</b></span> <span><b>CCSP</b></span> <span><b>GCIH</b></span>
+      <span><b>CHFI</b></span> <span><b>CEH</b></span>
+    </div>
+  </div>
+
+  <!-- قسم آلية العمل -->
+  <div class="section fade">
+    <h2 style="text-align: center; color: var(--accent);">كيف يعمل المستشار؟</h2>
+    <div class="steps-container">
+      <div class="step">
+        <span class="step-num">01.</span>
+        <b>تحليل الميول</b>
+        <p style="color: var(--muted); font-size: 14px;">قياس توافق شخصيتك مع المسارات الأمنية المختلفة (دفاعي، هجومي، أو إداري).</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02.</span>
+        <b>مطابقة السوق</b>
+        <p style="color: var(--muted); font-size: 14px;">ربط مهاراتك بالوظائف والاحتياجات الفعلية لسوق العمل في المملكة.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03.</span>
+        <b>خارطة الطريق</b>
+        <p style="color: var(--muted); font-size: 14px;">الحصول على خطة تعليمية كاملة تشمل الشهادات والمصادر الموصى بها.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- قسم المميزات -->
+  <div class="section fade">
+    <h2 style="color: var(--accent); text-align: center;">لماذا هذا الاختبار؟</h2>
+    <div class="features-grid">
+      <div class="card"><b>توطين المهارات</b><br><small>مصمم خصيصاً للمواطن الطموح</small></div>
+      <div class="card"><b>تحديثات 2026</b><br><small>متوافق مع أحدث التوجهات</small></div>
+      <div class="card"><b>مسارات واضحة</b><br><small>إنهاء حيرة البدايات</small></div>
+      <div class="card"><b>دعم مهني</b><br><small>خطة عمل واقعية</small></div>
+    </div>
+  </div>
+
+  <!-- قسم الأسئلة الشائعة المرتب -->
+  <div class="section fade">
+    <h2 style="text-align: center; margin-bottom: 25px; color: var(--accent);">الأسئلة الشائعة</h2>
+    <div class="faq-grid">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل الاختبار مجاني بالكامل؟</h4>
+        <p>نعم، الاختبار متاح مجاناً للجميع للمساعدة في توجيه الكوادر السعودية نحو التخصصات التقنية المطلوبة.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل احتاج خلفية تقنية سابقة؟</h4>
+        <p>ليس بالضرورة، الاختبار يقيس ميولك وقدراتك التحليلية، وسيقترح عليك البداية المناسبة سواء كنت خبيراً أو مبتدئاً.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>كم يستغرق الاختبار؟</h4>
+        <p>يستغرق حوالي 5 إلى 7 دقائق من التركيز لضمان الحصول على أدق النتائج الممكنة لمستقبلك.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل الشهادات المقترحة معترف بها دولياً؟</h4>
+        <p>بكل تأكيد، جميع الشهادات التي نوصي بها هي شهادات عالمية مرموقة ومطلوبة بشدة في القطاع الحكومي والخاص بالمملكة.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
+<div style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+    تطوير وإعداد: <b>[ فهد متعب السبيعي ]</b> 
+</div>
+</footer>
+
+<script>
+  // تأثير الكتابة الآلية
+  const text = "root@cyberpath:~# Saudi_Market_Analysis... Success!_";
+  let i = 0;
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById("typewriter").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, 80);
+    }
+  }
+
+  // وظيفة فتح وإغلاق الأسئلة الشائعة بسلاسة
+  function toggleFaq(el) {
+    const p = el.querySelector('p');
+    const allP = document.querySelectorAll('.faq-item p');
+    const allItems = document.querySelectorAll('.faq-item');
+    
+    // إغلاق أي سؤال مفتوح آخر عند فتح سؤال جديد
+    allP.forEach(item => { if(item !== p) item.style.display = 'none'; });
+    allItems.forEach(item => { if(item !== el) item.classList.remove('active'); });
+
+    // تبديل ظهور السؤال الحالي
+    const isVisible = p.style.display === 'block';
+    p.style.display = isVisible ? 'none' : 'block';
+    el.classList.toggle('active', !isVisible);
+  }
+
+  // تأثير الظهور عند التمرير
+  const items = document.querySelectorAll(".fade");
+  function show(){
+    items.forEach(el => {
+      if(el.getBoundingClientRect().top < window.innerHeight - 50){
+        el.classList.add("show");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", show);
+  window.onload = () => {
+    typeWriter();
+    show();
+  };
+</script>
+
+</body>
+</html>

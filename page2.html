@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Path | التحليل السيبراني المهني</title>
+
+<!-- مكتبة تحويل الصفحة إلى PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+:root{
+  --bg:#070a0f;
+  --card:#0f1623;
+  --accent:#00ffc3;
+  --blue:#4da3ff;
+  --red:#ff4d6d;
+  --green:#2dd4bf;
+  --text:#e6edf3;
+  --muted:#8b9bb0;
+  --glass:rgba(15, 22, 35, 0.95);
+}
+
+body{
+  margin:0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at 20% 20%, rgba(0,255,195,0.05), transparent 50%), var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  color:var(--text);
+}
+
+.container{
+  width:92%;
+  max-width:500px;
+  background: var(--glass);
+  border-radius:24px;
+  padding:30px;
+  box-shadow:0 10px 50px rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.05);
+  animation: fadeIn 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.progress{height:6px; background:#1a2233; margin-bottom:25px; border-radius:10px; overflow:hidden;}
+.bar{height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--blue)); transition:0.4s;}
+
+h3{margin:0 0 20px; color:var(--accent); text-align:center; font-size: 22px;}
+
+button {
+  width:100%;
+  padding:16px;
+  margin:10px 0;
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--text);
+  border-radius:15px;
+  cursor:pointer;
+  text-align:right;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+button:hover{
+  border-color:var(--accent);
+  background: rgba(0,255,195,0.08);
+}
+
+.start-btn {
+  background:linear-gradient(90deg,var(--accent),var(--blue));
+  color:#000;
+  font-weight:bold;
+  text-align:center;
+  border: none;
+}
+
+.pdf-btn { 
+  background: var(--green); 
+  color: #000; 
+  font-weight: bold; 
+  text-align: center;
+  margin-top: 20px;
+  border: none;
+}
+
+.result-stat { margin-bottom: 15px; }
+.bar-result { height:10px; background:#1f2937; border-radius:10px; overflow:hidden; margin-top:8px; }
+.fill { height:100%; border-radius:10px; }
+
+.roadmap-card {
+  background: rgba(255,255,255,0.03);
+  padding:20px;
+  border-radius:18px;
+  margin-top:25px;
+  border: 1px solid rgba(0,255,195,0.2);
+}
+
+.step {
+  display: flex;
+  margin-bottom: 12px;
+  font-size: 14px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding-bottom: 8px;
+}
+.step-label { color: var(--accent); font-weight: bold; }
+.cert-name { color: var(--text); direction: ltr; unicode-bidi: embed; }
+
+#result-to-pdf {
+    padding: 20px;
+    background-color: #070a0f;
+    color: #e6edf3;
+    direction: rtl;
+}
+
+.pdf-header {
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.back-section { text-align: center; margin-top: 20px; }
+.back-link { color: var(--muted); text-decoration: none; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="container" id="quiz-container">
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <h3 id="title">مستشار المسار السيبراني</h3>
+    
+    <div id="content">
+        <p style="text-align:center; color: var(--muted);">بدء تحليل الذكاء الاصطناعي لتحديد تخصصك المهني الأدق في الأمن السيبراني.</p>
+        <button class="start-btn" onclick="start()">بدء التحليل المهني 🇸🇦</button>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
+        <div style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+            تطوير وإعداد: <b> فهد متعب السبيعي </b> 
+        </div>
+    </footer>
+</div>
+
+<script>
+const questions = [
+    {q:"في وقت فراغك، ماذا تفضل أن تفعل؟", a:[["تأمين الشبكات وصد محاولات الدخول","blue"],["تفكيك البرامج واكتشاف ثغراتها","red"],["ترتيب ملفاتك وكتابة ملاحظات حول الخصوصية","white"]]},
+    {q:"إذا واجهت نظاماً مقفلاً، ما هو أول دافع لديك؟", a:[["وضع قوانين تحدد من يحق له حمل المفتاح","white"],["البحث عن وسيلة ذكية لفك القفل","red"],["تقوية القفل والتأكد من عدم وجود نسخ مفاتيح","blue"]]},
+    {q:"ما هو نوع المهام الذي يجذبك أكثر؟", a:[["اختبار الاختراق (Pentest)","red"],["الامتثال والإدارة (GRC)","white"],["الدفاع والمراقبة (SOC)","blue"]]},
+    {q:"أي من هذه الأدوات تثير اهتمامك أكثر؟", a:[["أنظمة كشف التسلل وتحليل السجلات","blue"],["أطر العمل والمعايير العالمية","white"],["أدوات فحص المنافذ والثغرات","red"]]},
+    {q:"كيف تتعامل مع المشاكل التقنية المعقدة؟", a:[["أفكر خارج الصندوق لإيجاد حل غير تقليدي","red"],["أوثق المشكلة وأضع خطة لمنع تكرارها","white"],["أحلل البيانات بدقة لمعرفة مصدر الخطأ","blue"]]},
+    {q:"ما هي بيئة العمل التي تفضلها؟", a:[["عضو في غرفة عمليات أمنية","blue"],["مستشار مستقل أو صائد ثغرات","red"],["مدير أمن معلومات أو مدقق أنظمة","white"]]},
+    {q:"ماذا تحب أن تقرأ في الأخبار التقنية؟", a:[["تحديثات القوانين والتشريعات الأمنية","white"],["تسريبات عن ثغرات يوم الصفر","red"],["طرق صد الهجمات الحديثة","blue"]]},
+    {q:"ما هو هدفك النهائي في هذا المجال؟", a:[["أن أكون مدافعاً سيبرانياً للبنية التحتية","blue"],["أن أكون قائداً أمنياً يخطط للاستراتيجيات","white"],["أن أكون هكر أخلاقي محترف","red"]]}
+];
+
+let i=0;
+let score={red:0,blue:0,white:0};
+
+function start(){ showQ(); }
+
+function showQ(){
+    if(i >= questions.length){ result(); return; }
+    let q = questions[i];
+    let html = `<div>
+        <div style="font-size:18px; margin-bottom:20px; font-weight:bold;">س${i+1}: ${q.q}</div>`;
+    q.a.forEach(ans => {
+        html += `<button onclick="answer('${ans[1]}')">${ans[0]}</button>`;
+    });
+    html += `</div>`;
+    document.getElementById("content").innerHTML = html;
+    document.getElementById("bar").style.width = (i / questions.length * 100) + "%";
+}
+
+function answer(t){ score[t]++; i++; showQ(); }
+
+function result(){
+    let total = questions.length;
+    let r = Math.round(score.red/total*100);
+    let b = Math.round(score.blue/total*100);
+    let w = Math.round(score.white/total*100);
+    
+    let pathTitle = "";
+    let roadmapHtml = "";
+    
+    if(r>=b && r>=w) {
+        pathTitle = "خبير الاستجابة الهجومية واختبار الاختراق";
+        roadmapHtml = `
+            <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Network+ / Security+</span></div>
+            <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">eJPT Certificate</span></div>
+            <div class="step"><span class="step-label">مستوى متوسط:</span><span class="cert-name">PNPT / CEH Practical</span></div>
+            <div class="step"><span class="step-label">مرحلة الاحتراف:</span><span class="cert-name">OSCP Gold Standard</span></div>`;
+    } else if(b>=r && b>=w) {
+        pathTitle = "أخصائي حماية البنية التحتية والعمليات الأمنية";
+        roadmapHtml = `
+            <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Security+ / CyberOps</span></div>
+            <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">BTL1 Certification</span></div>
+            <div class="step"><span class="step-label">مستوى متوسط:</span><span class="cert-name">CySA+ Analysis</span></div>
+            <div class="step"><span class="step-label">مرحلة الاحتراف:</span><span class="cert-name">GCIH Incident Handler</span></div>`;
+    } else {
+        pathTitle = "مستشار استراتيجيات الحوكمة وإدارة المخاطر الرقمية";
+        roadmapHtml = `
+            <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Security+ / ITCA</span></div>
+            <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">CISA Auditor</span></div>
+            <div class="step"><span class="step-label">مستوى متوسط:</span><span class="cert-name">CRISC Risk Management</span></div>
+            <div class="step"><span class="step-label">مرحلة الاحتراف:</span><span class="cert-name">CISM / CISSP</span></div>`;
+    }
+
+    document.getElementById("title").innerText = "نتائج التحليل المهني";
+    document.getElementById("content").innerHTML = `
+        <div id="result-to-pdf">
+            <div class="pdf-header">
+                <h2 style="color:var(--accent); margin:0;">تقرير الكفاءة السيبرانية</h2>
+                <p style="font-size:12px; color:var(--muted); margin-top:5px;">تحليل المسار المهني المتوافق مع رؤية 2030</p>
+            </div>
+
+            <h4 style="text-align:center; color:var(--blue); margin-bottom:25px; line-height:1.4;">المسار المقترح: <br>${pathTitle}</h4>
+            
+            <div class="result-stat">
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span>مؤشر المهارات الهجومية</span><span>${r}%</span></div>
+                <div class="bar-result"><div class="fill" style="width:${r}%; background:var(--red)"></div></div>
+            </div>
+            <div class="result-stat">
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span>مؤشر العمليات الدفاعية</span><span>${b}%</span></div>
+                <div class="bar-result"><div class="fill" style="width:${b}%; background:var(--blue)"></div></div>
+            </div>
+            <div class="result-stat">
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span>مؤشر الحوكمة والامتثال</span><span>${w}%</span></div>
+                <div class="bar-result"><div class="fill" style="width:${w}%; background:var(--green)"></div></div>
+            </div>
+
+            <div class="roadmap-card">
+                <p style="margin:0 0 15px 0; font-weight:bold; color:var(--accent); border-bottom:1px solid rgba(0,255,195,0.2); padding-bottom:10px;">خطة التطوير المهني المقترحة:</p>
+                ${roadmapHtml}
+            </div>
+        </div>
+        
+        <button class="pdf-btn" onclick="downloadPDF()">📥 تحميل التقرير بصيغة PDF</button>
+
+        <div class="back-section">
+            <a href="page1.html" class="back-link">← العودة للرئيسية</a>
+        </div>
+    `;
+    document.getElementById("bar").style.width = "100%";
+}
+
+function downloadPDF() {
+    const element = document.getElementById('result-to-pdf');
+    const opt = {
+        margin: [10, 10, 10, 10],
+        filename: 'Cyber_Report_Fahad.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3, useCORS: true, backgroundColor: '#070a0f' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+</body>
+</html>
