@@ -86,6 +86,9 @@ button:hover{
   text-align: center;
   margin-top: 20px;
   border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 14px;
 }
 
 .result-stat { margin-bottom: 15px; }
@@ -195,9 +198,11 @@ function result(){
     
     let pathTitle = "";
     let roadmapHtml = "";
-    
+    let pathKey = "";
+
     if(r>=b && r>=w) {
         pathTitle = "خبير الاستجابة الهجومية واختبار الاختراق";
+        pathKey = "offensive";
         roadmapHtml = `
             <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Network+ / Security+</span></div>
             <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">eJPT Certificate</span></div>
@@ -205,6 +210,7 @@ function result(){
             <div class="step"><span class="step-label">مرحلة الاحتراف:</span><span class="cert-name">OSCP Gold Standard</span></div>`;
     } else if(b>=r && b>=w) {
         pathTitle = "أخصائي حماية البنية التحتية والعمليات الأمنية";
+        pathKey = "defensive";
         roadmapHtml = `
             <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Security+ / CyberOps</span></div>
             <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">BTL1 Certification</span></div>
@@ -212,6 +218,7 @@ function result(){
             <div class="step"><span class="step-label">مرحلة الاحتراف:</span><span class="cert-name">GCIH Incident Handler</span></div>`;
     } else {
         pathTitle = "مستشار استراتيجيات الحوكمة وإدارة المخاطر الرقمية";
+        pathKey = "grc";
         roadmapHtml = `
             <div class="step"><span class="step-label">المستوى المبتدئ:</span><span class="cert-name">Security+ / ITCA</span></div>
             <div class="step"><span class="step-label">مرحلة التأسيس:</span><span class="cert-name">CISA Auditor</span></div>
@@ -248,7 +255,10 @@ function result(){
             </div>
         </div>
         
-        <button class="pdf-btn" onclick="downloadPDF()">📥 تحميل التقرير بصيغة PDF</button>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button class="pdf-btn" style="flex: 1;" onclick="downloadPDF()">📥 تحميل PDF</button>
+            <button class="pdf-btn" style="flex: 1; background: var(--blue);" onclick="window.location.href='page3.html?path=${pathKey}'">🗺️ الخطة في الدليل</button>
+        </div>
 
         <div class="back-section">
             <a href="page1.html" class="back-link">← العودة للرئيسية</a>
