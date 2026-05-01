@@ -28,6 +28,7 @@
 📸 نظرة على المشروع
 <img width="679" height="876" alt="لقطة شاشة 2026-05-01 230539" src="https://github.com/user-attachments/assets/00e92a28-c656-4d9d-b6d9-7f9ffd53b014" />
 <img width="632" height="446" alt="لقطة شاشة 2026-05-01 230600" src="https://github.com/user-attachments/assets/bd95e4e0-7e1e-4b45-af03-3bbdc1881ad7" />
+<img width="944" height="855" alt="لقطة شاشة 2026-05-02 023551" src="https://github.com/user-attachments/assets/47bdd527-106b-43e3-be07-46ff336d5661" />
 
 
 🛠 التقنيات المستخدمة
