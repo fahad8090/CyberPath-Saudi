@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-# تطوير وإعداد: [ فهد متعب السبيعي ]
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -27,7 +26,7 @@ body{
   scroll-behavior: smooth;
 }
 
-/* شريط التنقل العلوي الجديد */
+/* شريط التنقل العلوي */
 .nav-bar {
     position: sticky;
     top: 0;
@@ -185,7 +184,6 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
 
 <body>
 
-<!-- شريط التنقل العلوي -->
 <nav class="nav-bar">
     <div class="nav-container">
         <div class="nav-links">
@@ -258,7 +256,6 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
     </div>
   </div>
 
-  <!-- قسم الأسئلة الشائعة مع ID للتمرير -->
   <div class="section fade" id="faq-section">
     <h2 style="text-align: center; margin-bottom: 25px; color: var(--accent);">الأسئلة الشائعة</h2>
     <div class="faq-grid">
@@ -272,11 +269,35 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>كم يستغرق الاختبار؟</h4>
-        <p>يستغرق حوالي 5 إلى 7 دقائق من التركيز لضمان الحصول على أدق النتائج الممكنة لمستقبلك.</p>
+        <p>يستغرق حوالي 5 إلى 7 دقائق من التركيز لضمان الحصول على أدق النتائج الممكنة لمستقبلك المهني.</p>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>هل الشهادات المقترحة معترف بها دولياً؟</h4>
-        <p>بكل تأكيد، جميع الشهادات التي نوصي بها هي شهادات عالمية مرموقة ومطلوبة بشدة في القطاع الحكومي والخاص بالمملكة.</p>
+        <p>بكل تأكيد، جميع الشهادات التي نوصي بها هي شهادات عالمية (مثل CompTIA, OffSec, ISACA) ومطلوبة بشدة في القطاعين العام والخاص بالمملكة.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>ما هو المسار الأكثر طلباً في السعودية حالياً؟</h4>
+        <p>تشهد المملكة طلباً عالياً جداً على مسارات "الدفاع السيبراني" (Blue Teaming) و"الحوكمة والمخاطر والامتثال" (GRC) نظراً لمتطلبات الهيئة الوطنية للأمن السيبراني (NCA).</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل تغني الشهادات المهنية عن الشهادة الجامعية؟</h4>
+        <p>في سوق العمل السعودي، تعتبر الشهادة الجامعية (خاصة في التخصصات التقنية) أساساً قوياً، بينما تعتبر الشهادات المهنية "الميزة التنافسية" التي تجعلك تتوظف وتترقى بشكل أسرع.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل يوفر الموقع دورات تدريبية؟</h4>
+        <p>الموقع حالياً يعمل كمستشار وخارطة طريق، حيث يوجهك لأفضل المصادر والشهادات العالمية المعتمدة، ولا يقدم دورات مباشرة بنفسه.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>كيف يتم تحديث بيانات المسارات؟</h4>
+        <p>يتم مراجعة المسارات والشهادات بشكل دوري لتتوافق مع إطار "سعودي سيبر" وتوجهات رؤية 2030 وأحدث تقنيات عام 2026.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>هل يوجد فرق في الرواتب بين المسارات؟</h4>
+        <p>الرواتب في الأمن السيبراني مجزية جداً بشكل عام، لكن التخصصات الدقيقة مثل "التحقيق الجنائي الرقمي" أو "هندسة أمن السحاب" غالباً ما تحصل على علاوات فنية أعلى نظراً لندرتها.</p>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <h4>أنا تخصصي ليس حاسب، هل يمكنني التحول للأمن السيبراني؟</h4>
+        <p>نعم، الكثير من الناجحين في هذا المجال بدأوا من تخصصات مختلفة. مسار "الحوكمة والالتزام" قد يكون مدخلاً ممتازاً لمن لديهم خلفيات إدارية أو قانونية.</p>
       </div>
     </div>
   </div>
@@ -291,7 +312,6 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
 </footer>
 
 <script>
-  // تأثير الكتابة الآلية
   const text = "root@cyberpath:~# Saudi_Market_Analysis... Success!_";
   let i = 0;
   function typeWriter() {
@@ -302,7 +322,6 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
     }
   }
 
-  // وظيفة التمرير الديناميكي للأسئلة الشائعة
   function scrollToFaq() {
     document.getElementById('faq-section').scrollIntoView({ behavior: 'smooth' });
   }
