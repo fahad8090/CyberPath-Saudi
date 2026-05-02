@@ -20,11 +20,59 @@
 body{
   margin:0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: radial-gradient(circle at 20% 20%, rgba(0,255,195,0.05), transparent 50%), var(--bg);
+  background: var(--bg); /* تم تثبيت اللون الأساسي لتسهيل طبقة الخلفية */
   color:var(--text);
   overflow-x:hidden;
   scroll-behavior: smooth;
 }
+
+/* --- إضافة الخلفية السيبرانية (The Cyber Backdrop) --- */
+.cyber-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 195, 0.05), var(--bg));
+}
+
+.cyber-grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 195, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 195, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+}
+
+.cyber-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="2" cy="2" r="1" fill="%2300ffc3" /></svg>');
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.05; }
+    50% { opacity: 0.2; }
+}
+/* --- نهاية إضافة الخلفية --- */
 
 /* شريط التنقل العلوي */
 .nav-bar {
@@ -66,7 +114,7 @@ body{
     color: var(--accent);
 }
 
-.container{ max-width:900px; margin:auto; padding:20px; }
+.container{ max-width:900px; margin:auto; padding:20px; position: relative; }
 
 .terminal {
   background: #000;
@@ -175,6 +223,37 @@ body{
 .faq-item.active h4::after { content: '-'; transform: rotate(180deg); }
 .faq-item p { margin: 15px 0 0; color: var(--muted); font-size: 14px; display: none; line-height: 1.6; }
 
+/* زر العودة للأعلى */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(90deg, var(--accent), var(--blue));
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,255,195,0.3);
+    z-index: 2000;
+    transition: 0.4s;
+    opacity: 0;
+    visibility: hidden;
+    border: none;
+}
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+.back-to-top:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(0,255,195,0.5);
+}
+
 .fade{ opacity:0; transform:translateY(30px); transition:0.8s ease-out; }
 .fade.show{ opacity:1; transform:translateY(0); }
 
@@ -183,6 +262,12 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
 </head>
 
 <body>
+
+<!-- طبقة الخلفية السيبرانية -->
+<div class="cyber-bg">
+    <div class="cyber-grid"></div>
+    <div class="cyber-lines"></div>
+</div>
 
 <nav class="nav-bar">
     <div class="nav-container">
@@ -281,28 +366,32 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>هل تغني الشهادات المهنية عن الشهادة الجامعية؟</h4>
-        <p>في سوق العمل السعودي، تعتبر الشهادة الجامعية (خاصة في التخصصات التقنية) أساساً قوياً، بينما تعتبر الشهادات المهنية "الميزة التنافسية" التي تجعلك تتوظف وتترقى بشكل أسرع.</p>
+        <p>في سوق العمل السعودي، تعتبر الشهادة الجامعية أساساً قوياً، بينما تعتبر الشهادات المهنية "الميزة التنافسية" التي تسرع توظيفك وترقيتك.</p>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>هل يوفر الموقع دورات تدريبية؟</h4>
-        <p>الموقع حالياً يعمل كمستشار وخارطة طريق، حيث يوجهك لأفضل المصادر والشهادات العالمية المعتمدة، ولا يقدم دورات مباشرة بنفسه.</p>
+        <p>الموقع حالياً يعمل كمستشار وخارطة طريق، حيث يوجهك لأفضل المصادر والشهادات العالمية المعتمدة.</p>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>كيف يتم تحديث بيانات المسارات؟</h4>
-        <p>يتم مراجعة المسارات والشهادات بشكل دوري لتتوافق مع إطار "سعودي سيبر" وتوجهات رؤية 2030 وأحدث تقنيات عام 2026.</p>
+        <p>يتم مراجعة المسارات بشكل دوري لتتوافق مع إطار "سعودي سيبر" وتوجهات رؤية 2030 وأحدث تقنيات عام 2026.</p>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>هل يوجد فرق في الرواتب بين المسارات؟</h4>
-        <p>الرواتب في الأمن السيبراني مجزية جداً بشكل عام، لكن التخصصات الدقيقة مثل "التحقيق الجنائي الرقمي" أو "هندسة أمن السحاب" غالباً ما تحصل على علاوات فنية أعلى نظراً لندرتها.</p>
+        <p>الرواتب في الأمن السيبراني مجزية جداً، وتعتمد على ندرة التخصص مثل "التحقيق الجنائي الرقمي" أو "أمن السحاب".</p>
       </div>
       <div class="faq-item" onclick="toggleFaq(this)">
         <h4>أنا تخصصي ليس حاسب، هل يمكنني التحول للأمن السيبراني؟</h4>
-        <p>نعم، الكثير من الناجحين في هذا المجال بدأوا من تخصصات مختلفة. مسار "الحوكمة والالتزام" قد يكون مدخلاً ممتازاً لمن لديهم خلفيات إدارية أو قانونية.</p>
+        <p>نعم، الكثير بدأوا من تخصصات إدارية أو قانونية، ومسار الحوكمة (GRC) قد يكون مدخلاً ممتازاً لك.</p>
       </div>
     </div>
   </div>
 
 </div>
+
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+</button>
 
 <footer>
   جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
@@ -326,6 +415,10 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
     document.getElementById('faq-section').scrollIntoView({ behavior: 'smooth' });
   }
 
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function toggleFaq(el) {
     const p = el.querySelector('p');
     const allP = document.querySelectorAll('.faq-item p');
@@ -340,18 +433,26 @@ footer { text-align: center; padding: 40px; color: var(--muted); font-size: 13px
   }
 
   const items = document.querySelectorAll(".fade");
-  function show(){
+  const backBtn = document.getElementById("backToTop");
+
+  function handleScroll(){
     items.forEach(el => {
       if(el.getBoundingClientRect().top < window.innerHeight - 50){
         el.classList.add("show");
       }
     });
+
+    if (window.pageYOffset > 300) {
+        backBtn.classList.add("show");
+    } else {
+        backBtn.classList.remove("show");
+    }
   }
 
-  window.addEventListener("scroll", show);
+  window.addEventListener("scroll", handleScroll);
   window.onload = () => {
     typeWriter();
-    show();
+    handleScroll();
   };
 </script>
 
