@@ -16,6 +16,7 @@
   --green:#2dd4bf;
   --text:#e6edf3;
   --muted:#8b9bb0;
+  --glass:rgba(15, 22, 35, 0.85);
 }
 
 body {
@@ -23,9 +24,41 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg);
   color: var(--text);
-  padding: 20px;
   line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+/* --- الخلفية السيبرانية المشتركة --- */
+.cyber-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 195, 0.05), var(--bg));
+}
+.cyber-grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 195, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 195, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: grid-move 20s linear infinite;
+}
+@keyframes grid-move {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+}
+
+.main-content { flex: 1; padding: 20px; position: relative; }
 
 .nav-top { max-width: 1200px; margin: 0 auto; display: flex; justify-content: flex-start; padding: 10px 0; }
 .home-link { color: var(--accent); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; opacity: 0.8; transition: 0.3s; }
@@ -65,7 +98,7 @@ body {
 /* قسم الخطة المقترحة */
 #recommendedSection {
     max-width: 1200px; margin: 0 auto 40px; padding: 25px;
-    background: rgba(0, 255, 195, 0.03); border: 2px solid var(--accent); border-radius: 20px; display: none;
+    background: rgba(0, 255, 195, 0.05); border: 2px solid var(--accent); border-radius: 20px; display: none; backdrop-filter: blur(5px);
 }
 .recommendation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; color: var(--accent); }
 
@@ -77,7 +110,7 @@ body {
   background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;
   padding: 20px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column;
 }
-.course-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+.course-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 5px 15px rgba(0, 255, 195, 0.1); }
 .course-card.hidden { display: none; }
 
 .badge { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-bottom: 10px; width: fit-content; }
@@ -109,57 +142,71 @@ body {
 }
 .register-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 255, 195, 0.4); }
 
-footer { text-align: center; margin-top: 60px; padding: 30px; color: var(--muted); font-size: 11px; }
+/* --- استعادة التذييل من الصفحات السابقة --- */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--muted);
+    margin-top: 50px;
+}
+.footer-about h4 { color: var(--accent); margin-bottom: 10px; }
+.footer-about p { font-size: 14px; line-height: 1.6; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
 </style>
 </head>
 <body>
 
-<div class="nav-top">
-    <a href="page1.html" class="home-link"><i class="fas fa-home"></i><span>الرئيسية</span></a>
-</div>
+<div class="cyber-bg"><div class="cyber-grid"></div></div>
 
-<div class="header">
-    <h1>دليل الشهادات والمسارات الذكي</h1>
-</div>
-
-<!-- محرك البحث والفلترة -->
-<div class="controls-container">
-    <div class="search-wrapper">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم الشهادة..." oninput="applyFilters()">
+<div class="main-content">
+    <div class="nav-top">
+        <a href="page1.html" class="home-link"><i class="fas fa-home"></i><span>الرئيسية</span></a>
     </div>
-    <div class="filter-wrapper">
-        <button class="filter-btn" onclick="toggleFilter()"><i class="fas fa-filter"></i></button>
-        <div id="filterDropdown" class="filter-dropdown">
-            <label class="filter-option"><input type="checkbox" value="مبتدئ" onchange="applyFilters()"> مبتدئ</label>
-            <label class="filter-option"><input type="checkbox" value="تأسيس" onchange="applyFilters()"> تأسيس</label>
-            <label class="filter-option"><input type="checkbox" value="متوسط" onchange="applyFilters()"> متوسط</label>
-            <label class="filter-option"><input type="checkbox" value="محترف" onchange="applyFilters()"> محترف</label>
+
+    <div class="header">
+        <h1>دليل الشهادات والمسارات الذكي</h1>
+    </div>
+
+    <!-- محرك البحث والفلترة -->
+    <div class="controls-container">
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم الشهادة..." oninput="applyFilters()">
+        </div>
+        <div class="filter-wrapper">
+            <button class="filter-btn" onclick="toggleFilter()"><i class="fas fa-filter"></i></button>
+            <div id="filterDropdown" class="filter-dropdown">
+                <label class="filter-option"><input type="checkbox" value="مبتدئ" onchange="applyFilters()"> مبتدئ</label>
+                <label class="filter-option"><input type="checkbox" value="تأسيس" onchange="applyFilters()"> تأسيس</label>
+                <label class="filter-option"><input type="checkbox" value="متوسط" onchange="applyFilters()"> متوسط</label>
+                <label class="filter-option"><input type="checkbox" value="محترف" onchange="applyFilters()"> محترف</label>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- قسم الخطة المقترحة -->
-<div id="recommendedSection">
-    <div class="recommendation-header">
-        <i class="fas fa-star"></i>
-        <h2>خطتك الدراسية المقترحة</h2>
+    <!-- قسم الخطة المقترحة -->
+    <div id="recommendedSection">
+        <div class="recommendation-header">
+            <i class="fas fa-star"></i>
+            <h2>خطتك الدراسية المقترحة</h2>
+        </div>
+        <div class="courses-grid" id="recommendedGrid"></div>
     </div>
-    <div class="courses-grid" id="recommendedGrid"></div>
-</div>
 
-<!-- كافة المسارات -->
-<div id="allSections">
-    <div class="section-title">الدليل الشامل لكافة الشهادات</div>
-    
-    <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--red);">● المسار الهجومي (Offensive)</h3>
-    <div class="courses-grid" id="grid-offensive"></div>
+    <!-- كافة المسارات -->
+    <div id="allSections">
+        <div class="section-title">الدليل الشامل لكافة الشهادات</div>
+        
+        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--red);">● المسار الهجومي (Offensive)</h3>
+        <div class="courses-grid" id="grid-offensive"></div>
 
-    <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--blue);">● المسار الدفاعي (Defensive)</h3>
-    <div class="courses-grid" id="grid-defensive"></div>
+        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--blue);">● المسار الدفاعي (Defensive)</h3>
+        <div class="courses-grid" id="grid-defensive"></div>
 
-    <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--green);">● مسار الحوكمة (GRC)</h3>
-    <div class="courses-grid" id="grid-grc"></div>
+        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--green);">● مسار الحوكمة (GRC)</h3>
+        <div class="courses-grid" id="grid-grc"></div>
+    </div>
 </div>
 
 <!-- النافذة المنبثقة -->
@@ -170,7 +217,18 @@ footer { text-align: center; margin-top: 60px; padding: 30px; color: var(--muted
     </div>
 </div>
 
-<footer>جميع الحقوق محفوظة &copy; 2026</footer>
+<footer>
+    <div class="footer-about">
+        <h4>عن المستشار السيبراني السعودي</h4>
+        <p>منصة وطنية متخصصة تهدف إلى توجيه الكفاءات الوطنية في المملكة العربية السعودية نحو المسارات المهنية الصحيحة في مجال الأمن السيبراني بناءً على رؤية 2030.</p>
+    </div>
+    <div style="font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+        جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
+        <div style="margin-top: 10px; font-size: 12px; color: var(--muted);">
+            تطوير وإعداد: <b>فهد متعب السبيعي</b> 
+        </div>
+    </div>
+</footer>
 
 <script>
 const data = {
@@ -187,9 +245,9 @@ const data = {
     gcih: { cat: 'defensive', level: 'محترف', icon: 'fa-briefcase-medical', title: "GIAC GCIH", price: "3,500 ر.س", mode: "عملي", org: "GIAC", desc: "إدارة الحوادث واكتشاف الاختراقات والتعامل مع الهجمات.", longDesc: "شهادة رفيعة المستوى تركز على كيفية التعامل مع الهجمات الحية وإغلاق الثغرات أثناء وقوع الاختراق لتقليل الخسائر.", link: "#" },
 
     // حوكمة
-    itca: { cat: 'grc', level: 'مبتدئ', icon: 'fa-file-invoice', title: "ISACA ITCA", price: "1,125 ر.س", mode: "نظري", org: "ISACA", desc: "تأسيس الحوكمة والتدقيق وإدارة المخاطر التقنية.", longDesc: "مثالية للمهتمين بالجانب الإداري والرقابي، حيث تشرح كيفية مواءمة أمن المعلومات مع أهداف المنظمة القانونية والتجارية.", link: "#" },
+    itca: { cat: 'grc', level: 'مبتدئ', icon: 'fa-file-invoice', title: "ISACA ITCA", price: "1,125 ر.س", mode: "نظري", org: "ISACA", desc: "تأسيس الحوكمة والتدقيق وإدارة المخاطر التقنية.", longDesc: "مثالية للمهتمين بالجانب الإداري والرقابي، حيث تشرح كيفية مواءمة أمن المعلومات مع أهدف المنظمة القانونية والتجارية.", link: "#" },
     cisa: { cat: 'grc', level: 'تأسيس', icon: 'fa-clipboard-check', title: "CISA Auditor", price: "2,850 ر.س", mode: "نظري", org: "ISACA", desc: "المعيار العالمي الأول لمدققي نظم المعلومات.", longDesc: "تؤهلك لتكون مدققاً معتمداً قادراً على تقييم فعالية الضوابط الأمنية داخل الشركات الكبرى وضمان الامتثال للمعايير الدولية.", link: "#" },
-    cissp: { cat: 'grc', level: 'محترف', icon: 'fa-crown', title: "CISSP", price: "2,808 ر.س", mode: "إداري", desc: "الشهادة القيادية الأعلى لإدارة الأمن السيبراني.", longDesc: "تتطلب خبرة 5 سنوات وتغطي 8 مجالات أمنية واسعة، وهي الشهادة التي يحملها عادةً مدراء أمن المعلومات (CISO).", link: "#" }
+    cissp: { cat: 'grc', level: 'محترف', icon: 'fa-crown', title: "CISSP", price: "2,808 ر.س", mode: "إداري", org: "ISC2", desc: "الشهادة القيادية الأعلى لإدارة الأمن السيبراني.", longDesc: "تتطلب خبرة 5 سنوات وتغطي 8 مجالات أمنية واسعة، وهي الشهادة التي يحملها عادةً مدراء أمن المعلومات (CISO).", link: "#" }
 };
 
 function createCard(item, key, suffix) {
