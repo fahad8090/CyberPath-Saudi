@@ -28,9 +28,10 @@
 
 
 📸 نظرة على المشروع
-<img width="679" height="876" alt="لقطة شاشة 2026-05-01 230539" src="https://github.com/user-attachments/assets/00e92a28-c656-4d9d-b6d9-7f9ffd53b014" />
-<img width="632" height="446" alt="لقطة شاشة 2026-05-01 230600" src="https://github.com/user-attachments/assets/bd95e4e0-7e1e-4b45-af03-3bbdc1881ad7" />
-<img width="944" height="855" alt="لقطة شاشة 2026-05-02 023551" src="https://github.com/user-attachments/assets/47bdd527-106b-43e3-be07-46ff336d5661" />
+<img width="1053" height="1098" alt="لقطة شاشة 2026-05-02 170912" src="https://github.com/user-attachments/assets/e0ce3e87-5dd5-4ffd-a58a-31ede4ee1166" />
+<img width="1069" height="1097" alt="لقطة شاشة 2026-05-02 170938" src="https://github.com/user-attachments/assets/552aa1de-9d5b-4e4a-b69d-ce6b1fe1add3" />
+<img width="1059" height="1098" alt="لقطة شاشة 2026-05-02 170921" src="https://github.com/user-attachments/assets/3c662eee-d8e1-4ed1-9648-bde567af0873" />
+
 
 
 🛠 التقنيات المستخدمة
