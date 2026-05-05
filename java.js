@@ -327,30 +327,38 @@ function closeCertModal() { document.getElementById('infoModal').style.display =
 window.addEventListener('DOMContentLoaded', renderCerts);
 
 
-// كود جافا سكريبت لربط زر المدربين بالـ n8n cloud المحدث
-async function sendData() {
-    // 1. نجمع البيانات من الخانات
+// دالة إرسال بيانات المدربين إلى n8n
+async function submitTrainerForm() {
+    // 1. تجميع البيانات من الحقول باستخدام الـ id
     const trainerData = {
-        name: document.getElementById('trainer-name').value,
-        email: document.getElementById('trainer-email').value,
-        specialty: document.getElementById('trainer-specialty').value
+        name: document.getElementById('trainer_name').value,
+        email: document.getElementById('trainer_email').value,
+        certId: document.getElementById('cert_id').value,
+        experience: document.getElementById('exp_years').value,
+        linkedin: document.getElementById('linkedin_url').value,
+        // يمكنك إضافة الشهادة واللغة هنا أيضاً إذا أضفت لهما id
     };
 
-    // 2. نرسلها للـ n8n السحابي
     try {
+        // 2. إرسال الطلب إلى رابط n8n الخاص بك
         const response = await fetch('https://azizhiqk.app.n8n.cloud/webhook-test/cyber-advisor', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(trainerData),
+            body: JSON.stringify(trainerData)
         });
 
+        // 3. التحقق من استجابة السيرفر
         if (response.ok) {
-            alert('تم إرسال بياناتك بنجاح، سيتواصل معك المستشار قريباً!');
+            alert("تم إرسال طلبك بنجاح إلى منصة المستشار السيبراني!");
+            // يمكنك تصفير الحقول بعد الإرسال
+            document.querySelectorAll('input').forEach(input => input.value = '');
+        } else {
+            alert("فشل الإرسال، تأكد من تشغيل الورك فلو في n8n.");
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert('حدث خطأ أثناء الإرسال، يرجى التأكد من تشغيل الـ Webhook.');
+        console.error("Error:", error);
+        alert("هناك مشكلة في الاتصال بالسيرفر.");
     }
 }
