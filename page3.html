@@ -1,159 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Path | الدليل الشامل المطور</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<style>
-:root{
-  --bg:#070a0f;
-  --card:#0f1623;
-  --accent:#00ffc3;
-  --blue:#4da3ff;
-  --red:#ff4d6d;
-  --green:#2dd4bf;
-  --text:#e6edf3;
-  --muted:#8b9bb0;
-  --glass:rgba(15, 22, 35, 0.85);
-}
-
-body {
-  margin:0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* --- الخلفية السيبرانية المشتركة --- */
-.cyber-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 195, 0.05), var(--bg));
-}
-.cyber-grid {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-    background-image: 
-        linear-gradient(rgba(0, 255, 195, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 195, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    transform: perspective(500px) rotateX(60deg);
-    animation: grid-move 20s linear infinite;
-}
-@keyframes grid-move {
-    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-}
-
-.main-content { flex: 1; padding: 20px; position: relative; }
-
-.nav-top { max-width: 1200px; margin: 0 auto; display: flex; justify-content: flex-start; padding: 10px 0; }
-.home-link { color: var(--accent); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; opacity: 0.8; transition: 0.3s; }
-.home-link:hover { opacity: 1; text-shadow: 0 0 8px var(--accent); }
-
-.header { text-align: center; padding: 20px 0; }
-.header h1 { color: var(--accent); font-size: 28px; margin-bottom: 5px; }
-
-/* أدوات البحث والفلترة */
-.controls-container {
-    max-width: 600px;
-    margin: 0 auto 30px;
-    display: flex;
-    gap: 10px;
-}
-
-.search-wrapper { flex: 1; position: relative; }
-.search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--accent); }
-.search-input {
-    width: 100%; height: 45px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
-    padding: 0 40px 0 15px; border-radius: 10px; color: #fff; outline: none; box-sizing: border-box;
-}
-.search-input:focus { border-color: var(--accent); }
-
-.filter-wrapper { position: relative; }
-.filter-btn {
-    width: 45px; height: 45px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px; color: var(--accent); cursor: pointer; display: flex; justify-content: center; align-items: center;
-}
-.filter-dropdown {
-    display: none; position: absolute; top: 55px; left: 0; width: 180px;
-    background: var(--card); border: 1px solid var(--accent); border-radius: 10px; z-index: 1000; padding: 10px;
-}
-.filter-dropdown.show { display: block; }
-.filter-option { display: flex; align-items: center; padding: 8px; cursor: pointer; font-size: 14px; gap: 10px; }
-
-/* قسم الخطة المقترحة */
-#recommendedSection {
-    max-width: 1200px; margin: 0 auto 40px; padding: 25px;
-    background: rgba(0, 255, 195, 0.05); border: 2px solid var(--accent); border-radius: 20px; display: none; backdrop-filter: blur(5px);
-}
-.recommendation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; color: var(--accent); }
-
-/* التنسيق العام للشبكات */
-.section-title { max-width: 1200px; margin: 40px auto 20px; border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--muted); padding-bottom: 10px; }
-.courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-
-.course-card {
-  background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;
-  padding: 20px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column;
-}
-.course-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 5px 15px rgba(0, 255, 195, 0.1); }
-.course-card.hidden { display: none; }
-
-.badge { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-bottom: 10px; width: fit-content; }
-.badge-red { background: rgba(255, 77, 109, 0.1); color: var(--red); }
-.badge-blue { background: rgba(77, 163, 255, 0.1); color: var(--blue); }
-.badge-green { background: rgba(45, 212, 191, 0.1); color: var(--green); }
-
-.course-title { font-size: 17px; font-weight: bold; color: #fff; margin-bottom: 8px; }
-.course-desc { font-size: 13px; color: var(--muted); margin-bottom: 15px; flex-grow: 1; }
-.meta-info { display: flex; justify-content: space-between; font-size: 11px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
-
-/* Modal - النافذة المنبثقة */
-.modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); }
-.modal-content { background: var(--card); margin: 50px auto; padding: 40px; border-radius: 20px; width: 90%; max-width: 650px; border: 1px solid var(--accent); position: relative; color: #fff; overflow-y: auto; max-height: 80vh; }
-.close-btn { position: absolute; left: 20px; top: 20px; font-size: 24px; cursor: pointer; color: var(--muted); transition: 0.3s; }
-.close-btn:hover { color: var(--red); }
-
-.modal-header-info { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-.modal-icon { width: 60px; height: 60px; background: rgba(0, 255, 195, 0.1); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 28px; color: var(--accent); }
-
-.modal-details { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; }
-.detail-item { font-size: 14px; display: flex; align-items: center; gap: 10px; color: var(--muted); }
-.detail-item b { color: #fff; }
-
-.register-btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; padding: 15px; background: var(--accent); color: #000;
-    text-decoration: none; border-radius: 10px; font-weight: bold; transition: 0.3s;
-}
-.register-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 255, 195, 0.4); }
-
-/* --- استعادة التذييل من الصفحات السابقة --- */
-footer {
-    text-align: center;
-    padding: 40px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(255,255,255,0.05);
-    color: var(--muted);
-    margin-top: 50px;
-}
-.footer-about h4 { color: var(--accent); margin-bottom: 10px; }
-.footer-about p { font-size: 14px; line-height: 1.6; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Path | الدليل الشامل المطور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="global.css">
 </head>
 <body>
 
@@ -161,14 +13,13 @@ footer {
 
 <div class="main-content">
     <div class="nav-top">
-        <a href="page1.html" class="home-link"><i class="fas fa-home"></i><span>الرئيسية</span></a>
+        <a href="index.html" class="home-link"><i class="fas fa-home"></i><span>الرئيسية</span></a>
     </div>
 
     <div class="header">
         <h1>دليل الشهادات والمسارات الذكي</h1>
     </div>
 
-    <!-- محرك البحث والفلترة -->
     <div class="controls-container">
         <div class="search-wrapper">
             <i class="fas fa-search"></i>
@@ -185,141 +36,79 @@ footer {
         </div>
     </div>
 
-    <!-- قسم الخطة المقترحة -->
     <div id="recommendedSection">
-        <div class="recommendation-header">
-            <i class="fas fa-star"></i>
-            <h2>خطتك الدراسية المقترحة</h2>
-        </div>
+        <div class="recommendation-header"><i class="fas fa-star"></i><h2>خطتك الدراسية المقترحة</h2></div>
         <div class="courses-grid" id="recommendedGrid"></div>
     </div>
 
-    <!-- كافة المسارات -->
     <div id="allSections">
         <div class="section-title">الدليل الشامل لكافة الشهادات</div>
-        
-        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--red);">● المسار الهجومي (Offensive)</h3>
+        <h3 style="max-width:1200px; margin:20px auto; color:var(--red);">● المسار الهجومي (Offensive)</h3>
         <div class="courses-grid" id="grid-offensive"></div>
-
-        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--blue);">● المسار الدفاعي (Defensive)</h3>
+        <h3 style="max-width:1200px; margin:20px auto; color:var(--blue);">● المسار الدفاعي (Defensive)</h3>
         <div class="courses-grid" id="grid-defensive"></div>
-
-        <h3 class="path-title" style="max-width:1200px; margin:20px auto; color:var(--green);">● مسار الحوكمة (GRC)</h3>
+        <h3 style="max-width:1200px; margin:20px auto; color:var(--green);">● مسار الحوكمة (GRC)</h3>
         <div class="courses-grid" id="grid-grc"></div>
     </div>
 </div>
 
-<!-- النافذة المنبثقة -->
 <div id="infoModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <span class="close-btn" onclick="closeCertModal()">&times;</span>
         <div id="modalContent"></div>
     </div>
 </div>
 
-<footer>
-    <div class="footer-about">
-        <h4>عن المستشار السيبراني السعودي</h4>
-        <p>منصة وطنية متخصصة تهدف إلى توجيه الكفاءات الوطنية في المملكة العربية السعودية نحو المسارات المهنية الصحيحة في مجال الأمن السيبراني بناءً على رؤية 2030.</p>
-    </div>
-    <div style="font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
-        جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
-        <div style="margin-top: 10px; font-size: 12px; color: var(--muted);">
-            تطوير وإعداد: <b>فهد متعب السبيعي</b> 
+<!-- 1. واجهة المستشار الذكي (HTML) -->
+<div id="ai-chat-widget">
+    <button id="ai-chat-btn" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+    <div id="ai-window">
+        <div id="ai-header">
+            <span>المستشار الذكي</span>
+            <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
         </div>
+        <div id="ai-messages">
+            <div class="ai-msg msg-bot">أهلاً يا فهد! أنا مستشارك السيبراني، كيف أقدر أخدمك اليوم؟</div>
+        </div>
+        <div id="ai-input-area">
+            <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key === 'Enter') sendToAI()">
+            <button id="ai-send" onclick="sendToAI()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()"><i class="fas fa-chevron-up"></i></button>
+
+
+<!-- Footer الجزء الاخير -->
+<footer>
+    <div class="footer-about fade">
+        <h3 style="color: var(--accent);">عن المستشار السيبراني السعودي</h3>
+        <p>منصة وطنية متخصصة تهدف إلى توجيه الكفاءات الوطنية في المملكة العربية السعودية نحو المسارات المهنية الصحيحة في مجال الأمن السيبراني بناءً على رؤية 2030 </p>
+    </div>
+
+ <!-- ازرار الانتقال للصفحات -->
+<div style="margin: 30px 0; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+    
+    <!-- زر من نحن -->
+    <a href="about.html" class="nav-link" style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--accent); padding: 10px 25px; border-radius: 30px; font-size: 14px; background: rgba(0, 255, 195, 0.05); text-decoration: none; transition: 0.3s;">
+        <i class="fas fa-users"></i> من نحن
+    </a>
+
+    <!-- زر انضم كمدرب معتمد -->
+    <a href="page4.html" class="nav-link" style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--accent); padding: 10px 25px; border-radius: 30px; font-size: 14px; background: rgba(0, 255, 195, 0.05); text-decoration: none; transition: 0.3s;">
+        <i class="fas fa-chalkboard-teacher"></i> انضم كمدرب معتمد
+    </a>
+
+
+</div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        جميع الحقوق محفوظة &copy; 2026 - مستشارك السيبراني السعودي
+        <div style="margin-top: 15px; font-size: 12px; color: var(--muted);">تطوير وإعداد: <b>فهد متعب السبيعي</b></div>
     </div>
 </footer>
 
-<script>
-const data = {
-    // هجومي
-    net: { cat: 'offensive', level: 'مبتدئ', icon: 'fa-network-wired', title: "CompTIA Network+", price: "1,342 ر.س", mode: "عن بعد", org: "CompTIA", desc: "تأسيس صلب في الشبكات والبروتوكولات ونظام OSI Model.", longDesc: "تعتبر هذه الشهادة حجر الأساس لأي متخصص أمن سيبراني هجومي، حيث توفر فهماً عميقاً لكيفية انتقال البيانات واكتشاف ثغرات الشبكة الأساسية.", link: "#" },
-    ejpt: { cat: 'offensive', level: 'تأسيس', icon: 'fa-laptop-code', title: "eJPTv2", price: "934 ر.س", mode: "عملي", org: "INE Security", desc: "أول خطوة عملية حقيقية في عالم اختبار الاختراق.", longDesc: "شهادة عملية 100% تدربك على استخدام أدوات Kali Linux، المسح، واستغلال الثغرات البسيطة في بيئة مختبرية حقيقية.", link: "#" },
-    pnpt: { cat: 'offensive', level: 'متوسط', icon: 'fa-user-ninja', title: "PNPT", price: "1,875 ر.س", mode: "عملي", org: "TCM Security", desc: "محاكاة واقعية لاختراق شركة من الصفر حتى التقرير.", longDesc: "تركز الشهادة على اختبار الاختراق الخارجي والداخلي واختراق Active Directory، مع تقديم عرض مرئي للنتائج أمام لجنة مختصة.", link: "#" },
-    oscp: { cat: 'offensive', level: 'محترف', icon: 'fa-skull-crossbones', title: "OffSec OSCP", price: "6,184 ر.س", mode: "عملي مراقب", org: "OffSec", desc: "المعيار الذهبي والشهادة الأكثر شهرة للهجوميين.", longDesc: "اختبار مدته 24 ساعة يتطلب اختراق مجموعة من السيرفرات يدوياً بدون أدوات آلية، مما يثبت جدارتك الاحترافية العالية.", link: "#" },
-    
-    // دفاعي
-    sec: { cat: 'defensive', level: 'مبتدئ', icon: 'fa-shield-alt', title: "CompTIA Security+", price: "1,470 ر.س", mode: "نظري/عملي", org: "CompTIA", desc: "الشهادة الأكثر طلباً لمدخلي البيانات والمبتدئين في الأمن.", longDesc: "تغطي المبادئ الأساسية لأمن الشبكات، إدارة المخاطر، والامتثال، وهي تذكرة دخولك الأولى لسوق العمل السيبراني.", link: "#" },
-    btl1: { cat: 'defensive', level: 'تأسيس', icon: 'fa-user-shield', title: "BTL1", price: "1,875 ر.س", mode: "عملي", org: "Security Blue Team", desc: "تدريب مكثف على أدوات محللي الـ SOC.", longDesc: "ستتعلم كيفية تحليل السجلات (Logs)، التحقيق الجنائي الرقمي البسيط، والاستجابة للحوادث باستخدام أدوات احترافية مثل Splunk.", link: "#" },
-    cysa: { cat: 'defensive', level: 'متوسط', icon: 'fa-search-plus', title: "CompTIA CySA+", price: "1,470 ر.س", mode: "نظري/عملي", org: "CompTIA", desc: "تحليل البيانات الأمنية واكتشاف التهديدات المتقدمة.", longDesc: "تركز على الدفاع النشط وتحليل السلوكيات المشبوهة داخل الشبكة باستخدام تقنيات مراقبة متطورة.", link: "#" },
-    gcih: { cat: 'defensive', level: 'محترف', icon: 'fa-briefcase-medical', title: "GIAC GCIH", price: "3,500 ر.س", mode: "عملي", org: "GIAC", desc: "إدارة الحوادث واكتشاف الاختراقات والتعامل مع الهجمات.", longDesc: "شهادة رفيعة المستوى تركز على كيفية التعامل مع الهجمات الحية وإغلاق الثغرات أثناء وقوع الاختراق لتقليل الخسائر.", link: "#" },
-
-    // حوكمة
-    itca: { cat: 'grc', level: 'مبتدئ', icon: 'fa-file-invoice', title: "ISACA ITCA", price: "1,125 ر.س", mode: "نظري", org: "ISACA", desc: "تأسيس الحوكمة والتدقيق وإدارة المخاطر التقنية.", longDesc: "مثالية للمهتمين بالجانب الإداري والرقابي، حيث تشرح كيفية مواءمة أمن المعلومات مع أهدف المنظمة القانونية والتجارية.", link: "#" },
-    cisa: { cat: 'grc', level: 'تأسيس', icon: 'fa-clipboard-check', title: "CISA Auditor", price: "2,850 ر.س", mode: "نظري", org: "ISACA", desc: "المعيار العالمي الأول لمدققي نظم المعلومات.", longDesc: "تؤهلك لتكون مدققاً معتمداً قادراً على تقييم فعالية الضوابط الأمنية داخل الشركات الكبرى وضمان الامتثال للمعايير الدولية.", link: "#" },
-    cissp: { cat: 'grc', level: 'محترف', icon: 'fa-crown', title: "CISSP", price: "2,808 ر.س", mode: "إداري", org: "ISC2", desc: "الشهادة القيادية الأعلى لإدارة الأمن السيبراني.", longDesc: "تتطلب خبرة 5 سنوات وتغطي 8 مجالات أمنية واسعة، وهي الشهادة التي يحملها عادةً مدراء أمن المعلومات (CISO).", link: "#" }
-};
-
-function createCard(item, key, suffix) {
-    const badgeClass = item.cat === 'offensive' ? 'badge-red' : (item.cat === 'defensive' ? 'badge-blue' : 'badge-green');
-    return `<div class="course-card" id="${key}-${suffix}" data-level="${item.level}" data-title="${item.title}" onclick="showModal('${key}')">
-        <span class="badge ${badgeClass}">${item.level}</span>
-        <div class="course-title">${item.title}</div>
-        <div class="course-desc">${item.desc}</div>
-        <div class="meta-info"><span><i class="fas fa-microchip"></i> ${item.mode}</span><span>${item.price}</span></div>
-    </div>`;
-}
-
-function renderInitial() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userPath = urlParams.get('path'); 
-    
-    Object.keys(data).forEach(key => {
-        const item = data[key];
-        if (userPath && item.cat === userPath) {
-            document.getElementById('recommendedSection').style.display = 'block';
-            document.getElementById('recommendedGrid').innerHTML += createCard(item, key, 'rec');
-        }
-        document.getElementById(`grid-${item.cat}`).innerHTML += createCard(item, key, 'all');
-    });
-}
-
-function applyFilters() {
-    const term = document.getElementById('searchInput').value.toLowerCase();
-    const selectedLevels = Array.from(document.querySelectorAll('#filterDropdown input:checked')).map(i => i.value);
-    document.querySelectorAll('.course-card').forEach(card => {
-        const matchesSearch = card.getAttribute('data-title').toLowerCase().includes(term);
-        const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(card.getAttribute('data-level'));
-        card.classList.toggle('hidden', !(matchesSearch && matchesLevel));
-    });
-}
-
-function toggleFilter() { document.getElementById('filterDropdown').classList.toggle('show'); }
-
-function showModal(key) {
-    const item = data[key];
-    document.getElementById('modalContent').innerHTML = `
-        <div class="modal-header-info">
-            <div class="modal-icon"><i class="fas ${item.icon}"></i></div>
-            <div>
-                <h2 style="margin:0; color:var(--accent);">${item.title}</h2>
-                <span style="font-size:14px; color:var(--muted);">${item.org}</span>
-            </div>
-        </div>
-        <div class="modal-details">
-            <div class="detail-item"><i class="fas fa-chart-line"></i> <span>المستوى: <b>${item.level}</b></span></div>
-            <div class="detail-item"><i class="fas fa-tag"></i> <span>السعر: <b>${item.price}</b></span></div>
-            <div class="detail-item"><i class="fas fa-desktop"></i> <span>النمط: <b>${item.mode}</b></span></div>
-            <div class="detail-item"><i class="fas fa-certificate"></i> <span>الجهة: <b>${item.org}</b></span></div>
-        </div>
-        <div style="margin-bottom:30px;">
-            <h4 style="color:var(--accent); margin-bottom:10px;">عن هذه الشهادة:</h4>
-            <p style="font-size:15px; color:var(--text); line-height:1.8;">${item.longDesc}</p>
-        </div>
-        <a href="${item.link}" class="register-btn">
-            <i class="fas fa-external-link-alt"></i> تسجيل في الدورة / الاختبار
-        </a>
-    `;
-    document.getElementById('infoModal').style.display = 'block';
-}
-
-function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
-window.onclick = e => { 
-    if (!e.target.closest('.filter-wrapper')) document.getElementById('filterDropdown').classList.remove('show');
-    if (e.target == document.getElementById('infoModal')) closeModal(); 
-}
-
-renderInitial();
-</script>
+<script src="java.js"></script>
 </body>
 </html>
