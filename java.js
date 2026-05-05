@@ -37,7 +37,7 @@ function handleScroll() {
     }
 }
 
-/* --- وظائف التحكم في AI Chat --- */
+/* --- وظائف التحكم في AI Chat (محدثة برابط n8n Cloud) --- */
 const aiBtn = document.getElementById('ai-chat-btn');
 const aiWindow = document.getElementById('ai-window');
 const closeAi = document.getElementById('close-ai');
@@ -62,7 +62,8 @@ async function sendToAI() {
     aiMessages.scrollTop = aiMessages.scrollHeight;
 
     try {
-        const response = await fetch('http://localhost:5678/webhook-test/cyber-advisor', {
+        // الربط مع الرابط الرسمي الجديد
+        const response = await fetch('https://azizhiqk.app.n8n.cloud/webhook-test/cyber-advisor', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ message: msg, user: "Fahad" })
@@ -92,7 +93,7 @@ async function sendToAI() {
     } catch(e) {
         const errDiv = document.createElement('div');
         errDiv.className = 'ai-msg msg-bot';
-        errDiv.textContent = "خطأ: تأكد من تشغيل سيرفر n8n وتفعيل الـ Webhook.";
+        errDiv.textContent = "خطأ: تأكد من تفعيل الـ Webhook في n8n cloud والضغط على 'Listen for Test Event'.";
         aiMessages.appendChild(errDiv);
         aiMessages.scrollTop = aiMessages.scrollHeight;
     }
@@ -113,8 +114,6 @@ window.addEventListener("load", () => {
 });
 
 // الجافا سكربت المخصص لـ البيج 2 
-
-/* --- أضف هذا الكود إلى نهاية ملف java.js --- */
 
 const questions = [
     {q:"في وقت فراغك، ماذا تفضل أن تفعل؟", a:[["تأمين الشبكات وصد محاولات الدخول","blue"],["تفكيك البرامج واكتشاف ثغراتها","red"],["ترتيب ملفاتك وكتابة ملاحظات حول الخصوصية","white"]]},
@@ -328,18 +327,18 @@ function closeCertModal() { document.getElementById('infoModal').style.display =
 window.addEventListener('DOMContentLoaded', renderCerts);
 
 
-// كود جافا سكريبت بسيط يربط الزر بالـ n8n
+// كود جافا سكريبت لربط زر المدربين بالـ n8n cloud المحدث
 async function sendData() {
-    // 1. نجمع البيانات من الخانات (تأكد أن الـ ID مطابق لخاناتك)
+    // 1. نجمع البيانات من الخانات
     const trainerData = {
         name: document.getElementById('trainer-name').value,
         email: document.getElementById('trainer-email').value,
         specialty: document.getElementById('trainer-specialty').value
     };
 
-    // 2. نرسلها للـ n8n
+    // 2. نرسلها للـ n8n السحابي
     try {
-        const response = await fetch('رابط_الـ_WEBHOOK_هنا', {
+        const response = await fetch('https://azizhiqk.app.n8n.cloud/webhook-test/cyber-advisor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -352,5 +351,6 @@ async function sendData() {
         }
     } catch (error) {
         console.error('Error:', error);
+        alert('حدث خطأ أثناء الإرسال، يرجى التأكد من تشغيل الـ Webhook.');
     }
 }
