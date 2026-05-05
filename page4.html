@@ -117,11 +117,11 @@
         <form class="instructor-form" id="regForm">
             <div class="form-group">
                 <label>الاسم الكامل</label>
-                <input type="text" placeholder="ادخل اسمك هنا..." required>
+                <input type="text" id="trainer_name" placeholder="ادخل اسمك هنا..." required>
             </div>
             <div class="form-group">
                 <label>البريد الإلكتروني المهني</label>
-                <input type="email" placeholder="name@example.com" required>
+                <input type="email" id="trainer_email" placeholder="name@example.com" required>
             </div>
 
             <div class="form-group">
@@ -137,7 +137,7 @@
             </div>
             <div class="form-group">
                 <label>رقم الاعتماد (Certification ID)</label>
-                <input type="text" placeholder="مثال: 12345678" required>
+                <input type="text" id="cert_id" placeholder="مثال: 12345678" required>
             </div>
 
             <div class="form-group">
@@ -151,12 +151,12 @@
             </div>
             <div class="form-group">
                 <label>سنوات الخبرة العملية</label>
-                <input type="number" min="1" placeholder="مثال: 5">
+                <input type="number" id="exp_years" min="1" placeholder="مثال: 5">
             </div>
 
             <div class="form-group full-width">
                 <label>رابط الملف الشخصي (LinkedIn)</label>
-                <input type="url" placeholder="https://linkedin.com/in/username">
+                <input type="url" id="linkedin_url" placeholder="https://linkedin.com/in/username">
             </div>
 
             <button type="submit" class="submit-btn">تقديم طلب الاعتماد في المنصة</button>
