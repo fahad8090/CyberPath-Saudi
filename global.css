@@ -43,6 +43,8 @@ body {
 
 .nav-link { color: #ffffff; text-decoration: none; }
 
+.nav-link i { color: #ffffff; }
+
 .container { max-width: 900px; margin: auto; padding: 20px; position: relative; }
 
 @media (max-width: 900px) {
@@ -453,25 +455,39 @@ footer {
 }
 
 
-/* تنسيقات خاصة للجوال فقط (شاشات أصغر من 768px) */
+/* تنسيقات إضافية للنتائج على الجوال */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.8rem; /* تصغير العناوين الكبيرة لتناسب الشاشة */
+    #quiz-content {
+        width: 95vw; /* استخدام عرض الشاشة بالكامل تقريباً */
+        margin: 0 auto; /* توسيط */
+        padding: 20px; /* مساحة داخلية */
+        box-sizing: border-box; /* تضمين الحدود في العرض */
     }
+    #quiz-content div {
+        font-size: 16px; /* زيادة حجم الخط للقراءة السهلة */
+        line-height: 1.6; /* تحسين التباعد بين الأسطر */
+    }
+}
 
-    .nav-links {
-        flex-direction: column; /* جعل الروابط فوق بعضها بدل ما تكون بجانب بعض */
-        align-items: center;
-        gap: 10px;
-    }
-
-    .hero {
-        padding: 40px 15px; /* تقليل المسافات الجانبية */
-    }
-
-    .site-logo-img {
-        height: 50px; /* تصغير اللوجو قليلاً ليوفر مساحة */
-    }
+/* تنسيقات للفلتر في دليل الشهادات */
+.filter-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+    min-width: 150px;
+}
+.filter-dropdown.show {
+    display: block;
+}
+.filter-option {
+    display: block;
+    margin: 5px 0;
 }
 
 
