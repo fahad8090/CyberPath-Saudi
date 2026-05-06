@@ -63,6 +63,25 @@ function initNavMenu() {
     window.addEventListener('resize', () => { if(window.innerWidth > 900) menu.classList.remove('active'); });
 }
 
+function applyTheme(theme) {
+    document.body.classList.toggle('light', theme === 'light');
+    localStorage.setItem('theme', theme);
+}
+
+function toggleTheme() {
+    const current = document.body.classList.contains('light') ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+}
+
+function initThemeToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', toggleTheme);
+    const storedTheme = localStorage.getItem('theme');
+    const initialTheme = storedTheme === 'light' ? 'light' : 'dark';
+    applyTheme(initialTheme);
+}
+
 // 3. نظام n8n للدردشة الذكية
 async function sendToAI() {
     const aiInput = document.getElementById('ai-input'); 
@@ -180,9 +199,9 @@ function showQuestion() {
     if (!content) return;
     if (currentQuestionIndex >= questions.length) { displayResult(); return; }
     let q = questions[currentQuestionIndex];
-    let html = `<div><div style="font-size:18px; margin-bottom:20px; font-weight:bold; text-align:center;">س${currentQuestionIndex + 1}: ${q.q}</div>`;
+    let html = `<div style="background: rgba(255,255,255,0.02); padding: 25px; border-radius: 12px; border: 1.2px solid rgba(0,255,195,0.2);"><div style="font-size:18px; margin-bottom:20px; font-weight:bold; text-align:center; color: var(--accent);">س${currentQuestionIndex + 1}: ${q.q}</div>`;
     q.a.forEach(ans => { html += `<button class="quiz-option-btn" onclick="submitAnswer('${ans[1]}')">${ans[0]}</button>`; });
-    html += `</div>`;
+    html += `</div></div>`;
     content.innerHTML = html;
     if(bar) bar.style.width = (currentQuestionIndex / questions.length * 100) + "%";
 }
@@ -219,18 +238,18 @@ function displayResult() {
     if(quizContent) {
         document.getElementById("quiz-title").innerText = "نتائج التحليل المهني";
         quizContent.innerHTML = `
-            <div id="result-to-pdf" style="padding:40px; background:#070a0f; color:#fff; direction:rtl; font-family:Arial, sans-serif;">
+            <div id="result-to-pdf" style="padding:40px; background:#070a0f; color:#fff; direction:rtl; font-family:Arial, sans-serif; text-align:center;">
                 <div style="text-align:center; border-bottom:2px solid #00ffc3; padding-bottom:20px; margin-bottom:40px;">
                     <h2 style="color:#00ffc3; margin:0; font-size:28px;">تقرير الكفاءة السيبرانية</h2>
                     <p style="color:#888; font-size:14px; margin-top:10px;">إعداد: فهد متعب السبيعي - مستشارك السيبراني</p>
                 </div>
                 
-                <div style="text-align:center; margin-bottom:40px;">
+                <div style="text-align:center; margin-bottom:40px; padding:20px; border:1.5px solid rgba(2, 105, 211, 0.3); border-radius:12px;">
                     <div style="color:#00d4ff; font-size:20px; font-weight:bold; margin-bottom:10px;">المسار المقترح:</div>
                     <div style="color:#fff; font-size:24px; font-weight:bold;">${pathTitle}</div>
                 </div>
                 
-                <div style="margin-bottom:30px; text-align:center;">
+                <div style="margin-bottom:30px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
                     <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر المهارات الهجومية</div>
                     <div style="font-size:14px; color:#ff4b5c; margin-bottom:8px; font-weight:bold;">${r}%</div>
                     <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
@@ -238,7 +257,7 @@ function displayResult() {
                     </div>
                 </div>
 
-                <div style="margin-bottom:30px; text-align:center;">
+                <div style="margin-bottom:30px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
                     <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر العمليات الدفاعية</div>
                     <div style="font-size:14px; color:#00d4ff; margin-bottom:8px; font-weight:bold;">${b}%</div>
                     <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
@@ -246,7 +265,7 @@ function displayResult() {
                     </div>
                 </div>
 
-                <div style="margin-bottom:40px; text-align:center;">
+                <div style="margin-bottom:40px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
                     <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر الحوكمة والامتثال</div>
                     <div style="font-size:14px; color:#00ffc3; margin-bottom:8px; font-weight:bold;">${w}%</div>
                     <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
@@ -254,31 +273,74 @@ function displayResult() {
                     </div>
                 </div>
 
-                <div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:15px; border:1px solid rgba(0,255,195,0.3);">
+                <div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:15px; border:1.5px solid rgba(0,255,195,0.3); text-align:center;">
                     <div style="color:#00ffc3; font-weight:bold; margin-bottom:20px; font-size:18px;">خطة التطوير المهني المقترحة:</div>
                     <div>${roadmapHtml}</div>
                 </div>
             </div>
-            <div style="display: flex; gap: 15px; margin-top: 25px; direction:rtl;">
-                <button class="pdf-btn" style="flex:1; background:#00ffc3; color:#000;" onclick="downloadQuizPDF()">تحميل PDF</button>
-                <button class="pdf-btn" style="flex:1; background:#00d4ff; color:#000;" onclick="window.location.href='page3.html?path=${pathKey}'">دليل الشهادات</button>
+            <div style="display: flex; gap: 15px; margin-top: 25px; direction:rtl; justify-content:center; flex-wrap:wrap;">
+                <button class="pdf-btn" style="flex:1; min-width:150px; background:#00ffc3; color:#000;" onclick="downloadQuizPDF()">تحميل PDF</button>
+                <button class="pdf-btn" style="flex:1; min-width:150px; background:#00d4ff; color:#000;" onclick="window.location.href='page3.html?path=${pathKey}'">دليل الشهادات</button>
             </div>
         `;
         if(document.getElementById("bar")) document.getElementById("bar").style.width = "100%";
     }
 }
 
-function downloadQuizPDF() {
+async function downloadQuizPDF() {
     const element = document.getElementById('result-to-pdf');
-    if(!element) return;
+    if (!element) return;
+
+    // تحديد الوضع (ليلي أو نهاري)
+    const isDarkMode = !document.body.classList.contains('light');
+    const bgColor = isDarkMode ? '#070a0f' : '#ffffff';
+
+    // إنشاء حاوية مؤقتة للتحميل لضمان التنسيق في منتصف الورقة
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'fixed';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '0';
+    tempContainer.style.width = '210mm'; // عرض ورقة A4
+    tempContainer.style.backgroundColor = bgColor;
+    tempContainer.style.display = 'flex';
+    tempContainer.style.justifyContent = 'center';
+    tempContainer.style.padding = '10mm 0';
+
+    const clone = element.cloneNode(true);
+    clone.style.width = '190mm'; // أقل قليلاً من عرض الورقة لترك هوامش
+    clone.style.margin = '0 auto';
+    clone.style.borderRadius = '0'; // ليكون المظهر رسمياً في التقرير
+    
+    tempContainer.appendChild(clone);
+    document.body.appendChild(tempContainer);
+
     const opt = {
-        margin: 5, // تقليل الهوامش
+        margin: 0, // الهوامش تم ضبطها يدوياً في tempContainer
         filename: 'Cyber_Report_Fahad.pdf',
         image: { type: 'jpeg', quality: 1.0 },
-        html2canvas: { scale: 3, useCORS: true, backgroundColor: '#070a0f', width: 800, height: 1200 }, // زيادة الدقة والحجم
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: {
+            scale: 3, // دقة عالية جداً
+            useCORS: true,
+            letterRendering: true, // حل مشكلة الحروف العربية
+            backgroundColor: bgColor,
+            logging: false
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        }
     };
-    html2pdf().set(opt).from(element).save();
+
+    try {
+        // تشغيل عملية التحويل
+        await html2pdf().set(opt).from(tempContainer).save();
+    } catch (error) {
+        console.error("PDF Error:", error);
+    } finally {
+        // حذف الحاوية المؤقتة من المتصفح بعد الانتهاء
+        document.body.removeChild(tempContainer);
+    }
 }
 
 // 8. تهيئة التطبيق عند التحميل
@@ -287,6 +349,7 @@ window.addEventListener('DOMContentLoaded', () => {
     typeWriter();
     renderCerts();
     initNavMenu();
+    initThemeToggle();
     showAllFades(); // إظهار جميع العناصر المخفية فوراً
     window.addEventListener("scroll", handleScroll);
 
