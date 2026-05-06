@@ -45,6 +45,85 @@
         .nav-menu a { color: var(--text); text-decoration: none; font-size: 0.95rem; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 14px; transition: 0.25s ease; }
         .nav-menu a:hover { background: rgba(0,255,195,0.14); color: var(--accent); }
 
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            direction: ltr;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.06);
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.25s ease;
+            font-size: 0.95rem;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.12); }
+        .theme-toggle .theme-switch {
+            width: 36px;
+            height: 18px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.3);
+            position: relative;
+            flex-shrink: 0;
+        }
+        .theme-toggle .theme-switch::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #000;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        body.light .theme-toggle .theme-switch::after { transform: translateX(18px); background: #fff; }
+        body.light .theme-toggle { 
+            background: rgba(2, 105, 211, 0.12);
+            color: #0269d3;
+            border: 1.5px solid #0269d3;
+            font-weight: 600;
+        }
+        body.light .theme-toggle:hover {
+            background: rgba(2, 105, 211, 0.22);
+            box-shadow: 0 0 8px rgba(2, 105, 211, 0.3);
+        }
+        body.light { 
+            background: #f4f7fb; 
+            color: #111827; 
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --accent: #0269d3;
+            --blue: #1f6dff;
+            --red: #d14d5f;
+            --green: #0b8b6f;
+            --text: #111827;
+            --muted: #5a6c82;
+            --glass: rgba(255,255,255,0.92);
+            --gradient: linear-gradient(90deg, #0269d3, #03b5ff);
+        }
+        body.light .nav-bar { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); }
+        body.light .nav-menu { 
+            background: rgba(255, 255, 255, 0.92) !important;
+            border: 1.5px solid #0269d3 !important;
+            box-shadow: 0 4px 20px rgba(2, 105, 211, 0.15) !important;
+        }
+        body.light .nav-menu a { 
+            background: rgba(255,255,255,0.85);
+            color: #111827;
+            border: 1px solid rgba(2, 105, 211, 0.1);
+        }
+        body.light .nav-menu a:hover { 
+            background: rgba(2,105,211,0.12);
+            color: #0269d3;
+            border-color: #0269d3;
+        }
+        body.light .cyber-bg { background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.03), #f4f7fb); }
+        body.light .cyber-grid { background-image: linear-gradient(rgba(0, 105, 211, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 105, 211, 0.08) 1px, transparent 1px); }
+
         .container { max-width: 900px; margin: auto; padding: 40px 20px; flex: 1; }
 
         @media (max-width: 900px) {
@@ -131,6 +210,11 @@
             <a href="page2.html" class="nav-link">الاختبار التحليلي</a>
             <a href="page3.html" class="nav-link">دليل الشهادات</a>
             <a href="page4.html" class="nav-link">انضم كمدرب</a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="تبديل الوضع">
+                <i class="fas fa-moon"></i>
+                <span class="theme-switch"></span>
+                <i class="fas fa-sun"></i>
+            </button>
         </div>
     </div>
 </nav>
