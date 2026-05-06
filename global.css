@@ -33,7 +33,7 @@ body {
 .nav-container { max-width: 1100px; margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; gap: 20px; }
 .nav-brand { color: var(--text); text-decoration: none; font-size: 1.05rem; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; }
 .nav-brand::before { content: 'CY'; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 12px; background: rgba(0,255,195,0.15); color: var(--accent); font-size: 0.85rem; font-weight: 800; }
-.nav-toggle { display: none; width: 44px; height: 44px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); cursor: pointer; align-items: center; justify-content: center; gap: 5px; flex-direction: column; }
+.nav-toggle { display: none; width: 44px; height: 44px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); cursor: pointer; align-items: center; justify-content: center; gap: 5px; flex-direction: column; transition: 0.3s ease; }
 .nav-toggle span { display: block; width: 22px; height: 2px; border-radius: 999px; background: var(--text); transition: transform 0.3s ease, opacity 0.3s ease; }
 .nav-toggle span:nth-child(1) { transform: translateY(-4px); }
 .nav-toggle span:nth-child(3) { transform: translateY(4px); }
@@ -41,9 +41,151 @@ body {
 .nav-menu a { color: #ffffff; text-decoration: none; font-size: 0.95rem; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 14px; transition: 0.25s ease; }
 .nav-menu a:hover { background: rgba(0,255,195,0.14); color: var(--accent); }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  direction: ltr;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-size: 0.95rem;
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.12);
+}
+.theme-toggle .theme-switch {
+  width: 36px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.3);
+  position: relative;
+  flex-shrink: 0;
+}
+.theme-toggle .theme-switch::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #000;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+body.light .theme-toggle .theme-switch::after {
+  transform: translateX(18px);
+  background: #fff;
+}
+body.light .theme-toggle {
+  background: rgba(2, 105, 211, 0.12);
+  color: #0269d3;
+  border: 1.5px solid #0269d3;
+  font-weight: 600;
+}
+body.light .theme-toggle:hover {
+  background: rgba(2, 105, 211, 0.22);
+  box-shadow: 0 0 8px rgba(2, 105, 211, 0.3);
+}
+body.light .nav-toggle {
+  background: rgba(2, 105, 211, 0.08);
+  border: 1px solid rgba(2, 105, 211, 0.2);
+}
+body.light .nav-toggle:hover {
+  background: rgba(2, 105, 211, 0.15);
+}
+body.light {
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --accent: #0269d3;
+  --blue: #1f6dff;
+  --red: #d14d5f;
+  --green: #0b8b6f;
+  --text: #111827;
+  --muted: #5a6c82;
+  --glass: rgba(255,255,255,0.92);
+  --gradient: linear-gradient(90deg, #0269d3, #03b5ff);
+}
+body.light .nav-bar {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(0,0,0,0.08);
+}
+body.light .nav-menu {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.light .nav-menu a {
+  background: rgba(255,255,255,0.85);
+  color: #111827;
+  border: 1px solid rgba(2, 105, 211, 0.1);
+}
+body.light .nav-menu a:hover {
+  background: rgba(2,105,211,0.12);
+  color: #0269d3;
+  border-color: #0269d3;
+}
+body.light .cyber-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.03), var(--bg));
+}
+body.light .cyber-grid {
+  background-image: linear-gradient(rgba(0, 105, 211, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 105, 211, 0.08) 1px, transparent 1px);
+}
+body.light .step, body.light .card {
+  background: #ffffff;
+  border: 1.5px solid #0269d3;
+  color: #111827;
+  box-shadow: 0 2px 8px rgba(2, 105, 211, 0.12);
+}
+body.light .step:hover, body.light .card:hover {
+  border-color: #0269d3;
+  box-shadow: 0 4px 16px rgba(2, 105, 211, 0.2);
+}
+body.light .step b, body.light .card h3 {
+  color: #0269d3;
+}
+body.light .step p, body.light .card p {
+  color: #5a6c82;
+}
+body.light .faq-item {
+  background: #ffffff;
+  border: 1px solid #0269d3 !important;
+  color: #111827;
+}
+body.light .faq-item h4 {
+  color: #0269d3;
+}
+body.light .faq-item p {
+  color: #5a6c82;
+}
+body.light .terminal {
+  background: #eef4fb;
+  border: 1.5px solid #0269d3;
+  color: var(--accent);
+}
+body.light .quiz-option-btn {
+  background: #ffffff;
+  border: 1.5px solid #0269d3;
+  color: #111827;
+  font-size: 16px;
+}
+body.light .quiz-option-btn:hover {
+  background: rgba(2,105,211,0.1);
+  border-color: #0269d3;
+}
+body.light #quiz-container {
+  background: rgba(255,255,255,0.95);
+  border: 1.5px solid #0269d3;
+}
+
 .nav-link { color: #ffffff; text-decoration: none; }
 
-.nav-link i { color: #ffffff; }
+.nav-link i { color: #ffffff !important; }
 
 .container { max-width: 900px; margin: auto; padding: 20px; position: relative; }
 
@@ -100,17 +242,18 @@ body {
 
 /* تنسيق البطاقة الموحد */
 .step, .card { 
-    padding: 30px 25px; 
+    padding: 20px 20px; 
     background: rgba(255,255,255,0.02); 
     border-radius: 15px; 
     text-align: center; 
     transition: 0.3s; 
+    overflow: hidden;
     
     display: flex !important;
     flex-direction: column !important; 
     align-items: center;
     justify-content: flex-start; /* يبدأ النص من الأعلى لتنسيق العناوين */
-    gap: 12px;
+    gap: 8px;
     
     height: 100%; /* تجعل البطاقة تأخذ كامل ارتفاع الصف */
     box-sizing: border-box;
@@ -119,6 +262,11 @@ body {
 /* تأطير البطاقات الجانبية (مثل كودك الأصلي) */
 .card {
     border-right: 3px solid var(--accent);
+}
+
+/* تنسيق الأيقونات في البطاقات */
+.step i {
+    font-size: 48px !important;
 }
 
 /* ضبط المسافات للنصوص */
@@ -132,7 +280,7 @@ body {
 .step p, .card p {
     margin: 0;
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 16px;
     flex-grow: 1; /* يدفع المحتوى لملء الفراغ ويحافظ على توازن الشكل */
 }
 
@@ -153,6 +301,7 @@ body {
 .faq-item h4 { margin: 0; color: var(--blue); font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
 .faq-item h4::after { content: '+'; color: var(--accent); font-size: 20px; transition: 0.3s; }
 .faq-item.active h4::after { content: '-'; transform: rotate(180deg); }
+.faq-item.active p { display: block; }
 .faq-item p { margin: 15px 0 0; color: var(--muted); font-size: 14px; display: none; line-height: 1.6; }
 
 /* --- AI Chat Widget --- */
@@ -184,6 +333,7 @@ footer { text-align: center; padding: 60px 20px; color: var(--muted); font-size:
 .faq-item h4 { margin: 0; color: var(--blue); font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
 .faq-item h4::after { content: '+'; color: var(--accent); font-size: 20px; transition: 0.3s; }
 .faq-item.active h4::after { content: '-'; transform: rotate(180deg); }
+.faq-item.active p { display: block; }
 .faq-item p { margin: 15px 0 0; color: var(--muted); font-size: 14px; display: none; line-height: 1.6; }
 
 /* --- Footer Special Classes --- */
@@ -257,16 +407,17 @@ footer {
 .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--blue)); transition: 0.4s; }
 
 .quiz-option-btn {
+    display: block;
     width: 100%;
     padding: 16px;
-    margin: 10px 0;
+    margin: 10px auto;
     background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1.2px solid rgba(255,255,255,0.2);
     color: var(--text);
     border-radius: 15px;
     cursor: pointer;
-    text-align: right;
-    font-size: 15px;
+    text-align: center;
+    font-size: 16px;
     transition: 0.3s;
 }
 
@@ -282,9 +433,80 @@ footer {
     text-align: center;
     border: none;
     padding: 16px;
-    width: 100%;
+    width: calc(100% - 0px);
+    max-width: 360px;
+    display: block;
+    margin: 0 auto;
     border-radius: 15px;
     cursor: pointer;
+}
+
+#quiz-content {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#quiz-content > div {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#result-to-pdf {
+    padding: 40px;
+    background-color: #070a0f;
+    color: #e6edf3;
+    direction: rtl;
+    border-radius: 15px;
+    border: 1.5px solid rgba(0,255,195,0.3);
+    width: 750px; /* عرض ثابت لضمان عدم تمدد العناصر عند التحميل */
+    margin: 0 auto;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* لضمان عدم ظهور تأثيرات الحركة (Animations) في الـ PDF */
+#result-to-pdf * {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+body.light #result-to-pdf {
+    background-color: #ffffff;
+    color: #111827;
+    border: 1.5px solid #0269d3;
+}
+
+body.light #result-to-pdf h2 {
+    color: #0269d3 !important;
+}
+
+body.light #result-to-pdf p {
+    color: #5a6c82 !important;
+}
+
+body.light #result-to-pdf div[style*="color:#00ffc3"] {
+    color: #0269d3 !important;
+}
+
+body.light #result-to-pdf div[style*="color:#00d4ff"] {
+    color: #0269d3 !important;
+}
+
+body.light #result-to-pdf div[style*="color:#ff4b5c"] {
+    color: #d14d5f !important;
+}
+
+body.light #result-to-pdf div[style*="background:#111"] {
+    background: #e0e7f1 !important;
+}
+
+body.light #result-to-pdf div[style*="background:rgba(255,255,255,0.03)"] {
+    background: rgba(2, 105, 211, 0.08) !important;
+    border: 1.5px solid #0269d3 !important;
 }
 
 .pdf-btn { 
@@ -297,6 +519,13 @@ footer {
     cursor: pointer;
     border-radius: 12px;
     padding: 14px;
+    display: inline-block;
+    min-width: 150px;
+}
+
+body.light .pdf-btn {
+    background: #0269d3;
+    color: #fff;
 }
 
 .result-stat { margin-bottom: 15px; }
@@ -322,19 +551,6 @@ footer {
 .step-label { color: var(--accent); font-weight: bold; }
 .cert-name { color: var(--text); direction: ltr; unicode-bidi: embed; }
 
-#result-to-pdf {
-    padding: 20px;
-    background-color: #070a0f;
-    color: #e6edf3;
-    direction: rtl;
-}
-
-.pdf-header {
-    text-align: center;
-    border-bottom: 2px solid var(--accent);
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
 
 .ui-btn {
     display: inline-flex;
@@ -457,15 +673,55 @@ footer {
 
 /* تنسيقات إضافية للنتائج على الجوال */
 @media (max-width: 768px) {
-    #quiz-content {
-        width: 95vw; /* استخدام عرض الشاشة بالكامل تقريباً */
-        margin: 0 auto; /* توسيط */
-        padding: 20px; /* مساحة داخلية */
-        box-sizing: border-box; /* تضمين الحدود في العرض */
+    #quiz-container {
+        width: 95vw;
+        max-width: 95vw;
+        padding: 18px;
     }
-    #quiz-content div {
-        font-size: 16px; /* زيادة حجم الخط للقراءة السهلة */
-        line-height: 1.6; /* تحسين التباعد بين الأسطر */
+    #quiz-content {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    #quiz-content p {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 18px;
+        text-align: center;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    #quiz-content > div {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+    .quiz-option-btn,
+    .start-btn,
+    .pdf-btn,
+    #result-to-pdf {
+        width: 100%;
+        max-width: 100%;
+        margin: 10px auto;
+        box-sizing: border-box;
+    }
+    .quiz-option-btn,
+    .start-btn,
+    .pdf-btn {
+        text-align: center;
+    }
+    .start-btn {
+        max-width: 100%;
+    }
+    #result-to-pdf {
+        padding: 18px;
+        border-radius: 18px;
+    }
+    #result-to-pdf * {
+        text-align: center !important;
     }
 }
 
@@ -488,6 +744,14 @@ footer {
 .filter-option {
     display: block;
     margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    .filter-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 120px;
+    }
 }
 
 
