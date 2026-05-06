@@ -24,6 +24,36 @@ function handleScroll() {
     fades.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("show"); });
 }
 
+function showAllFades() {
+    const fades = document.querySelectorAll(".fade");
+    fades.forEach(el => el.classList.add("show"));
+}
+
+function toggleFaq(element) {
+    element.classList.toggle('active');
+}
+
+function toggleFilter() {
+    const dropdown = document.getElementById('filterDropdown');
+    if(dropdown) dropdown.classList.toggle('show');
+}
+
+function applyFilters() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const selectedLevels = Array.from(document.querySelectorAll('#filterDropdown input:checked')).map(cb => cb.value);
+    
+    const cards = document.querySelectorAll('.course-card');
+    cards.forEach(card => {
+        const title = card.querySelector('.course-title').textContent.toLowerCase();
+        const level = card.querySelector('.badge').textContent;
+        
+        const matchesSearch = title.includes(searchTerm);
+        const matchesFilter = selectedLevels.length === 0 || selectedLevels.includes(level);
+        
+        card.style.display = (matchesSearch && matchesFilter) ? 'block' : 'none';
+    });
+}
+
 function initNavMenu() {
     const toggle = document.querySelector('.nav-toggle');
     const menu = document.querySelector('.nav-menu');
@@ -242,10 +272,10 @@ function downloadQuizPDF() {
     const element = document.getElementById('result-to-pdf');
     if(!element) return;
     const opt = {
-        margin: 10,
+        margin: 5, // تقليل الهوامش
         filename: 'Cyber_Report_Fahad.pdf',
         image: { type: 'jpeg', quality: 1.0 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#070a0f' },
+        html2canvas: { scale: 3, useCORS: true, backgroundColor: '#070a0f', width: 800, height: 1200 }, // زيادة الدقة والحجم
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(element).save();
@@ -257,6 +287,7 @@ window.addEventListener('DOMContentLoaded', () => {
     typeWriter();
     renderCerts();
     initNavMenu();
+    showAllFades(); // إظهار جميع العناصر المخفية فوراً
     window.addEventListener("scroll", handleScroll);
 
     // ربط نافذة الذكاء الاصطناعي
