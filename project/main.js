@@ -5,23 +5,29 @@
    ==================================================
 */
 
-const text = "root@cyberpath:~# Saudi_Market_Analysis... Success!_";
-let i = 0;
-
 // 1. نظام الكتابة الآلي
-function typeWriter() { 
-    const el = document.getElementById("typewriter");
-    if(el && i < text.length) { 
-        el.innerHTML += text.charAt(i); 
-        i++; 
-        setTimeout(typeWriter, 80); 
-    } 
-}
+const typeWriter = (() => {
+    const text = "root@cyberpath:~# Saudi_Market_Analysis... Success!_";
+    let i = 0;
+    let el;
+
+    return function type() {
+        if (!el) el = document.getElementById("typewriter");
+        if (el && i < text.length) {
+            // استخدام textContent أفضل للأداء من innerHTML عند إضافة نص فقط
+            el.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 80);
+        }
+    };
+})();
 
 // 2. معالجة التأثيرات البصرية
+let fadeElements = []; // تخزين العناصر لمرة واحدة لتحسين الأداء
+
 function handleScroll() {
-    const fades = document.querySelectorAll(".fade");
-    fades.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("show"); });
+    // استخدام العناصر المخزنة بدلاً من البحث في كل مرة
+    fadeElements.forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("show"); });
 }
 
 function showAllFades() {
@@ -63,9 +69,43 @@ function initNavMenu() {
     const toggle = document.querySelector('.nav-toggle');
     const menu = document.querySelector('.nav-menu');
     if(!toggle || !menu) return;
-    toggle.addEventListener('click', () => menu.classList.toggle('active'));
-    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.remove('active')));
-    window.addEventListener('resize', () => { if(window.innerWidth > 900) menu.classList.remove('active'); });
+    
+    // إنشاء overlay إذا لم يكن موجوداً
+    let ov = document.querySelector('.nav-overlay');
+    if (!ov) {
+        ov = document.createElement('div');
+        ov.className = 'nav-overlay';
+        document.body.appendChild(ov);
+    }
+    
+    const openMenu = () => {
+        menu.classList.add('active');
+        ov.classList.add('active');
+        toggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+    
+    const closeMenu = () => {
+        menu.classList.remove('active');
+        ov.classList.remove('active');
+        toggle.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+    
+    toggle.addEventListener('click', () => {
+        if (menu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
+    ov.addEventListener('click', closeMenu);
+    
+    // إغلاق القائمة عند النقر على أي رابط داخلها
+    menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
 }
 
 function applyTheme(theme) {
@@ -79,9 +119,12 @@ function toggleTheme() {
 }
 
 function initThemeToggle() {
-    const btn = document.getElementById('theme-toggle');
-    if(!btn) return;
-    btn.addEventListener('click', toggleTheme);
+    // ربط جميع أزرار الثيم (داخل القائمة وخارجها)
+    const btns = document.querySelectorAll('#theme-toggle, .nav-theme-btn');
+    if(!btns.length) return;
+    btns.forEach(btn => {
+        btn.addEventListener('click', toggleTheme);
+    });
     const storedTheme = localStorage.getItem('theme');
     const initialTheme = storedTheme === 'light' ? 'light' : 'dark';
     applyTheme(initialTheme);
@@ -120,7 +163,160 @@ async function sendToAI() {
 
 // 4. بيانات الشهادات الشاملة (لصفحة دليل الشهادات)
 const certData = {
-    // سيتم إضافة الدورات لاحقاً
+    oscp: {
+        title: "Offensive Security Certified Professional (OSCP)",
+        desc: "الشهادة الأكثر شهرة في مجال اختبار الاختراق العملي.",
+        price: "1599$",
+        org: "Offensive Security",
+        level: "محترف",
+        cat: "offensive",
+        req: "معرفة قوية بالشبكات ولينكس",
+        duration: "90 يوم",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.offsec.com/courses/pen-200/",
+        image: "assets/Courses/image1.png"
+    },
+    btl1: {
+        title: "Blue Team Level 1 (BTL1)",
+        desc: "دورة عملية تركز على الدفاع السيبراني والعمليات الأمنية (SOC).",
+        price: "499$",
+        org: "Security Blue Team",
+        level: "متوسط",
+        cat: "defensive",
+        req: "أساسيات الأمن السيبراني",
+        duration: "4 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://securityblueteam.com/btl1/",
+        image: "assets/Courses/image2.png"
+    },
+    security_plus: {
+        title: "CompTIA Security+",
+        desc: "شهادة أساسية في الأمن السيبراني تغطي مفاهيم التهديدات والهجمات والثغرات.",
+        price: "392$",
+        org: "CompTIA",
+        level: "مبتدئ",
+        cat: "defensive",
+        req: "Network+ أو خبرة سنتين",
+        duration: "3 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.comptia.org/certifications/security",
+        image: "assets/Courses/image3.png"
+    },
+    cissp: {
+        title: "Certified Information Systems Security Professional (CISSP)",
+        desc: "شهادة متقدمة في إدارة أمن المعلومات وتصميم الأنظمة الآمنة.",
+        price: "749$",
+        org: "ISC2",
+        level: "محترف",
+        cat: "grc",
+        req: "خبرة 5 سنوات في مجالين أمنيين",
+        duration: "6 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.isc2.org/Certifications/CISSP",
+        image: "assets/Courses/cissp.png"
+    },
+    cisa: {
+        title: "Certified Information Systems Auditor (CISA)",
+        desc: "شهادة متخصصة في تدقيق أنظمة المعلومات ومراجعة الضوابط الأمنية.",
+        price: "575$",
+        org: "ISACA",
+        level: "محترف",
+        cat: "grc",
+        req: "خبرة 5 سنوات في التدقيق",
+        duration: "4 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.isaca.org/credentialing/cisa",
+        image: "assets/Courses/image4.png"
+    },
+    cism: {
+        title: "Certified Information Security Manager (CISM)",
+        desc: "شهادة متقدمة في إدارة الأمن السيبراني وحوكمة المؤسسات.",
+        price: "575$",
+        org: "ISACA",
+        level: "محترف",
+        cat: "grc",
+        req: "خبرة 5 سنوات في إدارة الأمن",
+        duration: "4 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.isaca.org/credentialing/cism",
+        image: "assets/Courses/image5.png"
+    },
+    ceh: {
+        title: "Certified Ethical Hacker (CEH)",
+        desc: "شهادة في اختبار الاختراق الأخلاقي وأساليب الهجوم السيبراني.",
+        price: "1199$",
+        org: "EC-Council",
+        level: "متوسط",
+        cat: "offensive",
+        req: "خبرة سنتين في الأمن",
+        duration: "5 أيام تدريب",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/",
+        image: "assets/Courses/image6.png"
+    },
+    cisa_risk: {
+        title: "Certified in Risk and Information Systems Control (CRISC)",
+        desc: "شهادة في إدارة المخاطر التقنية والرقابية للمؤسسات.",
+        price: "575$",
+        org: "ISACA",
+        level: "محترف",
+        cat: "grc",
+        req: "خبرة 3 سنوات في إدارة المخاطر",
+        duration: "4 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.isaca.org/credentialing/crisc",
+        image: "assets/Courses/image7.png"
+    },
+    cysa: {
+        title: "CompTIA CySA+",
+        desc: "شهادة في تحليل الأمن السيبراني والاستجابة للحوادث.",
+        price: "392$",
+        org: "CompTIA",
+        level: "متوسط",
+        cat: "defensive",
+        req: "Security+ أو خبرة 4 سنوات",
+        duration: "3 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.comptia.org/certifications/cybersecurity-analyst",
+        image: "assets/Courses/image8.png"
+    },
+    ccsp: {
+        title: "Certified Cloud Security Professional (CCSP)",
+        desc: "شهادة متخصصة في أمن الحوسبة السحابية وحماية البيانات.",
+        price: "599$",
+        org: "ISC2",
+        level: "محترف",
+        cat: "defensive",
+        req: "خبرة 5 سنوات في تكنولوجيا المعلومات",
+        duration: "4 أشهر",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.isc2.org/Certifications/CCSP",
+        image: "assets/Courses/image9.png"
+    },
+    gcih: {
+        title: "GIAC Certified Incident Handler (GCIH)",
+        desc: "شهادة في التعامل مع الحوادث الأمنية والاستجابة للاختراقات.",
+        price: "2499$",
+        org: "SANS",
+        level: "متوسط",
+        cat: "defensive",
+        req: "معرفة أساسية بالشبكات",
+        duration: "5 أيام تدريب",
+        lang: "English",
+        cert: "نعم",
+        link: "https://www.giac.org/certifications/certified-incident-handler-gcih/",
+        image: "assets/Courses/image10.png"
+    }
 };
 
 const coursePrototypes = [
@@ -335,45 +531,86 @@ function shareCourse(index) {
 }
 
 
-// 5. دالة عرض الشهادات (إصلاح صفحة الدليل)
+// 5. دالة عرض الشهادات - بطاقات جديدة (صورة + عنوان + وصف + وقت + زر)
 function renderCerts() {
     const urlParams = new URLSearchParams(window.location.search);
     const userPath = urlParams.get('path'); 
     
-    const recGrid = document.getElementById('recommendedGrid');
-    const offGrid = document.getElementById('grid-offensive');
-    const defGrid = document.getElementById('grid-defensive');
-    const grcGrid = document.getElementById('grid-grc');
+    const hasRecommended = document.getElementById('recommendedGrid');
+    const isCertPage = document.getElementById('grid-all-certs') || document.getElementById('grid-offensive') || (document.querySelector('.main-content') && window.location.pathname.toLowerCase().includes('page3'));
 
-    // مسح المحتوى الحالي لتجنب التكرار
+    if (!hasRecommended && !isCertPage) {
+        return; // توقف فوراً لمنع التخريب وحقن البطاقات في الصفحات الأخرى
+    }
+
+    // 1. استعادة البطاقات: إنشاء حاوية الشبكة الموحدة تلقائياً وزرعها مكان القديمة فقط في صفحة الشهادات
+    let allGrid = document.getElementById('grid-all-certs');
+    if (isCertPage && !allGrid) {
+        allGrid = document.createElement('div');
+        allGrid.id = 'grid-all-certs';
+        allGrid.className = 'courses-grid';
+        const referenceNode = document.getElementById('grid-offensive') || document.querySelector('.section-title');
+        if (referenceNode && referenceNode.parentElement) {
+            referenceNode.parentElement.insertBefore(allGrid, referenceNode);
+        } else {
+            const container = document.querySelector('.main-content');
+            if (container) container.appendChild(allGrid);
+        }
+    }
+
+    // 2. تنظيف العناوين فقط في المكان المخصص لمنع تخريب الصفحة الرئيسية والصفحات الأخرى
+    const contentArea = document.querySelector('.main-content');
+    if (isCertPage && contentArea) {
+        contentArea.querySelectorAll('.section-title, h2, h3').forEach(el => {
+            const text = el.textContent || '';
+            if(text.includes('هجومي') || text.includes('دفاعي') || text.includes('حوكمة') || text.includes('العمليات')) el.remove();
+        });
+    }
+
+    // 3. إزالة الحاويات القديمة لضمان عدم وجود تداخل
+    ['grid-offensive', 'grid-defensive', 'grid-grc'].forEach(id => {
+        const oldGrid = document.getElementById(id);
+        if(oldGrid) oldGrid.remove();
+    });
+
+    const recGrid = document.getElementById('recommendedGrid');
     if(recGrid) recGrid.innerHTML = "";
-    if(offGrid) offGrid.innerHTML = "";
-    if(defGrid) defGrid.innerHTML = "";
-    if(grcGrid) grcGrid.innerHTML = "";
+    if(allGrid) allGrid.innerHTML = "";
 
     Object.keys(certData).forEach(key => {
         const item = certData[key];
+        const catColors = {offensive: '#ff4d6d', defensive: '#4da3ff', grc: '#2dd4bf'};
+        const catIcons = {offensive: '<i class="fas fa-user-secret"></i>', defensive: '<i class="fas fa-shield-alt"></i>', grc: '<i class="fas fa-file-contract"></i>'};
+        
+        const color = catColors[item.cat] || '#00ffc3';
+        const trackIcon = catIcons[item.cat] || '<i class="fas fa-certificate"></i>';
+        const badgeClass = item.cat === 'offensive' ? 'badge-red' : (item.cat === 'defensive' ? 'badge-blue' : 'badge-green');
+        const levelBadge = 'badge-' + item.level;
+        
         const cardHtml = `
-            <div class="course-card" data-level="${item.level}" onclick="showCertModal('${key}')">
-                <span class="badge ${item.cat === 'offensive' ? 'badge-red' : (item.cat === 'defensive' ? 'badge-blue' : 'badge-green')}">${item.level}</span>
-                <div class="course-title">${item.title}</div>
-                <div class="course-desc">${item.desc}</div>
-                <div class="meta-info">
-                    <span><i class="fas fa-money-bill-wave"></i> ${item.price}</span>
-                    <span><i class="fas fa-university"></i> ${item.org}</span>
+            <div class="course-card track-${item.cat}">
+                <span class="badge ${badgeClass} ${levelBadge}">${item.level}</span>
+                <div class="card-img" style="background-image: url('${item.image}');"></div>
+                <div class="card-body">
+                    <div class="track-badge ${item.cat}">
+                        ${trackIcon}
+                    </div>
+                    <div class="card-org">${item.org}</div>
+                    <h3 class="course-title">${item.title}</h3>
+                    <p class="course-desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <span class="card-duration"><i class="far fa-clock"></i> ${item.duration}</span>
+                        <a href="${item.link}" target="_blank" class="card-btn" style="text-decoration:none; color:inherit; cursor:pointer;">اطلب الدورة <i class="fas fa-arrow-left" style="margin-right:4px;"></i></a>
+                    </div>
                 </div>
             </div>`;
         
-        // عرض في قسم الموصى به بناءً على نتيجة الاختبار
         if (userPath && item.cat === userPath && recGrid) {
             document.getElementById('recommendedSection').style.display = 'block';
             recGrid.innerHTML += cardHtml;
         }
 
-        // توزيع الشهادات على الشبكات حسب التخصص
-        if(offGrid && item.cat === 'offensive') offGrid.innerHTML += cardHtml;
-        if(defGrid && item.cat === 'defensive') defGrid.innerHTML += cardHtml;
-        if(grcGrid && item.cat === 'grc') grcGrid.innerHTML += cardHtml;
+        if(allGrid) allGrid.innerHTML += cardHtml;
     });
 }
 
@@ -436,54 +673,55 @@ function displayResult() {
     `).join("");
 
     const quizContent = document.getElementById("quiz-content");
-    if(quizContent) {
+    if (quizContent) {
         document.getElementById("quiz-title").innerText = "نتائج التحليل المهني";
+        // تم نقل جميع الأنماط المضمنة إلى ملف CSS لتوحيد التصميم ودعم الوضع الفاتح/الداكن
         quizContent.innerHTML = `
-            <div id="result-to-pdf" style="padding:10px; margin:0; background:#070a0f; color:#fff; direction:rtl; font-family:Arial, sans-serif; text-align:center;">
-                <div style="text-align:center; border-bottom:2px solid #00ffc3; padding-bottom:20px; margin-bottom:40px;">
-                    <h2 style="color:#00ffc3; margin:0; font-size:28px;">تقرير الكفاءة السيبرانية</h2>
+            <div id="result-to-pdf" class="quiz-result-container">
+                <div class="result-header">
+                    <h2 class="result-main-title">تقرير الكفاءة السيبرانية</h2>
                 </div>
                 
-                <div style="text-align:center; margin-bottom:40px; padding:20px; border:1.5px solid rgba(2, 105, 211, 0.3); border-radius:12px;">
-                    <div style="color:#00d4ff; font-size:20px; font-weight:bold; margin-bottom:10px;">المسار المقترح:</div>
-                    <div style="color:#fff; font-size:24px; font-weight:bold;">${pathTitle}</div>
+                <div class="result-path-box">
+                    <div class="result-path-label">المسار المقترح:</div>
+                    <div class="result-path-title">${pathTitle}</div>
                 </div>
                 
-                <div style="margin-bottom:15px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
-                    <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر المهارات الهجومية</div>
-                    <div style="font-size:14px; color:#ff4b5c; margin-bottom:8px; font-weight:bold;">${r}%</div>
-                    <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
-                        <div style="position:absolute; right:0; top:0; width:${r}%; height:100%; background:#ff4b5c;"></div>
+                <div class="skill-meter">
+                    <div class="skill-meter-title">مؤشر المهارات الهجومية</div>
+                    <div class="skill-meter-percent red">${r}%</div>
+                    <div class="skill-meter-bar-bg">
+                        <div class="skill-meter-bar red" style="width:${r}%"></div>
                     </div>
                 </div>
 
-                <div style="margin-bottom:15px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
-                    <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر العمليات الدفاعية</div>
-                    <div style="font-size:14px; color:#00d4ff; margin-bottom:8px; font-weight:bold;">${b}%</div>
-                    <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
-                        <div style="position:absolute; right:0; top:0; width:${b}%; height:100%; background:#00d4ff;"></div>
+                <div class="skill-meter">
+                    <div class="skill-meter-title">مؤشر العمليات الدفاعية</div>
+                    <div class="skill-meter-percent blue">${b}%</div>
+                    <div class="skill-meter-bar-bg">
+                        <div class="skill-meter-bar blue" style="width:${b}%"></div>
                     </div>
                 </div>
 
-                <div style="margin-bottom:20px; text-align:center; padding:15px; background:rgba(255,255,255,0.02); border-radius:12px;">
-                    <div style="font-size:16px; color:#fff; margin-bottom:5px;">مؤشر الحوكمة والامتثال</div>
-                    <div style="font-size:14px; color:#00ffc3; margin-bottom:8px; font-weight:bold;">${w}%</div>
-                    <div style="height:14px; background:#111; border-radius:7px; overflow:hidden; position:relative; width:100%;">
-                        <div style="position:absolute; right:0; top:0; width:${w}%; height:100%; background:#00ffc3;"></div>
+                <div class="skill-meter">
+                    <div class="skill-meter-title">مؤشر الحوكمة والامتثال</div>
+                    <div class="skill-meter-percent green">${w}%</div>
+                    <div class="skill-meter-bar-bg">
+                        <div class="skill-meter-bar green" style="width:${w}%"></div>
                     </div>
                 </div>
 
-                <div style="background:rgba(255,255,255,0.03); padding:25px; border-radius:15px; border:1.5px solid rgba(0,255,195,0.3); text-align:center;">
-                    <div style="color:#00ffc3; font-weight:bold; margin-bottom:20px; font-size:18px;">خطة التطوير المهني المقترحة:</div>
+                <div class="roadmap-box">
+                    <div class="roadmap-title">خطة التطوير المهني المقترحة:</div>
                     <div>${roadmapHtml}</div>
                 </div>
             </div>
-            <div style="display: flex; gap: 15px; margin-top: 25px; direction:rtl; justify-content:center; flex-wrap:wrap;">
-                <button class="pdf-btn" style="flex:1; min-width:150px; background:#00ffc3; color:#000;" onclick="downloadQuizPDF()">تحميل PDF</button>
-                <button class="pdf-btn" style="flex:1; min-width:150px; background:#00d4ff; color:#000;" onclick="window.location.href='page3.html?path=${pathKey}'">دليل الشهادات</button>
+            <div class="quiz-actions">
+                <button class="pdf-btn download" onclick="downloadQuizPDF()">تحميل PDF</button>
+                <button class="pdf-btn guide" onclick="window.location.href='page3.html?path=${pathKey}'">تصفح دليل الشهادات</button>
             </div>
         `;
-        if(document.getElementById("bar")) document.getElementById("bar").style.width = "100%";
+        if (document.getElementById("bar")) document.getElementById("bar").style.width = "100%";
     }
 }
 
@@ -491,9 +729,9 @@ async function downloadQuizPDF() {
     const element = document.getElementById('result-to-pdf');
     if (!element) return;
 
-    // تحديد الوضع (ليلي أو نهاري)
-    const isDarkMode = !document.body.classList.contains('light');
-    const bgColor = isDarkMode ? '#070a0f' : '#ffffff';
+    // قراءة لون الخلفية الحالي من الصفحة لضمان تطابق الـ PDF مع الثيم
+    const bodyStyles = window.getComputedStyle(document.body);
+    const bgColor = bodyStyles.backgroundColor;
 
     // إنشاء حاوية مؤقتة للتحميل لضمان التنسيق في منتصف الورقة
     const tempContainer = document.createElement('div');
@@ -521,7 +759,7 @@ async function downloadQuizPDF() {
         html2canvas: {
             scale: 3, // دقة عالية جداً
             useCORS: true,
-            letterRendering: true, // حل مشكلة الحروف العربية
+            letterRendering: true,
             backgroundColor: bgColor,
             logging: false
         },
@@ -547,10 +785,12 @@ async function downloadQuizPDF() {
 window.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     typeWriter();
+    fadeElements = document.querySelectorAll(".fade"); // تخزين العناصر عند التحميل
     renderCerts();
     renderCoursePrototype();
     initNavMenu();
     initThemeToggle();
+    
     showAllFades(); // إظهار جميع العناصر المخفية فوراً
     window.addEventListener("scroll", handleScroll);
 
