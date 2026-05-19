@@ -22,10 +22,8 @@
 * **Documentation:** ميزة التصدير لتمكين المستخدم من الاحتفاظ بخطته المهنية.
 
 📸 نظرة على المشروع
-<img width="1053" height="1098" alt="لقطة شاشة 2026-05-02 170912" src="https://github.com/user-attachments/assets/e0ce3e87-5dd5-4ffd-a58a-31ede4ee1166" />
-<img width="1069" height="1097" alt="لقطة شاشة 2026-05-02 170938" src="https://github.com/user-attachments/assets/552aa1de-9d5b-4e4a-b69d-ce6b1fe1add3" />
-
-
+<img width="1150" height="901" alt="لقطة شاشة 2026-05-19 115638" src="https://github.com/user-attachments/assets/e914c48f-47f5-4c83-8fea-fbe8d28c5059" />
+<img width="1160" height="941" alt="لقطة شاشة 2026-05-19 115602" src="https://github.com/user-attachments/assets/f718bc2a-4317-4fe9-b01a-8768e0b3ee5c" />
 
 
 ## 👤 المطور والمعد
